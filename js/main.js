@@ -10,7 +10,7 @@ var height = 240 - margin.top - margin.bottom;
 var labelMargin = 8;
 
 var scale = d3.scaleLinear()
-  .domain([0, 4])
+  .domain([0, 999])
   .range([0, 100])
 
 function drawFlowerplot(noOfRows) {
@@ -31,10 +31,6 @@ function drawFlowerplot(noOfRows) {
       // get headers of the data-columns
       for (let x in rows[0]) {
         pp++;
-        // in the whiskies.csv, the first three rows and some of the last ones
-        // are not suitable for plotting, therefore ignore those
-        if (pp > 3 + noOfRows || pp > 14) break;
-        if (pp < 3) continue;
         labels.push(x); // name of the column
         // a linear scale for the current data entry
         accessors.push(function(d) { return scale(d[x]); })
@@ -67,10 +63,15 @@ function drawFlowerplot(noOfRows) {
 }
 
 
-drawFlowerplot(5);
+//drawFlowerplot(5);
 
-require(['text!../data/events.json'], function (events) {
-  var json = JSON.parse(events);
-  alert (json[0]._source.foundEventNamesAsString);
-});
+d3.csv('data/events.csv',function (data) {
+	var columns = ['RowID','Title','Price','Distance','Time','EstimationMusic','Popularity','Category']
+  tabulate(data,columns)
+})
+
+//require(['text!../data/events.json'], function (events) {
+//  var json = JSON.parse(events);
+//  alert (json[0]._source.foundEventNamesAsString);
+//});
 
