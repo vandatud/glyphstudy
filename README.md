@@ -1,6 +1,24 @@
 # Glyph Study Project
 
-Comparing tabular data and glyphs. Place git project "glyphs"(https://gitlab.mg.inf.tu-dresden.de/vanda/glyphs) next to project "glyphstudy"(https://gitlab.mg.inf.tu-dresden.de/vanda/glyphstudy) to work.
+Comparing tabular data and glyphs. 
+
+Place git projects 
+
+* [glyphs](https://gitlab.mg.inf.tu-dresden.de/vanda/glyphs)
+* [glyphstudy](https://gitlab.mg.inf.tu-dresden.de/vanda/glyphstudy) 
+
+next to each other to work. Resulting in a directory structure like this:
+
+```
+projects
+├── glpyhs/
+│   ├── css/
+│   └── js/
+└── glpyhstudy/
+    ├── css/
+    ├── data/  --> study data
+    └── js/
+```
 
 ## JavaScript Libraries
 
