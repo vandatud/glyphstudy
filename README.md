@@ -1,6 +1,6 @@
 # Glyph Study Project
 
-Comparing tabular data and glyphs. Place git project "glyphs" next to project "glyphstudy" to work.
+Comparing tabular data and glyphs. Place git project "glyphs"(https://gitlab.mg.inf.tu-dresden.de/vanda/glyphs) next to project "glyphstudy"(https://gitlab.mg.inf.tu-dresden.de/vanda/glyphstudy) to work.
 
 ## JavaScript Libraries
 
