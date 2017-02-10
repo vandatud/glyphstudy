@@ -39,9 +39,11 @@ Link: https://stedolan.github.io/jq/download/
 Online Regex-Tester: https://regex101.com/
 
 #### Ein Anführungszeichen innerhalb einer """{Zeichenkette}""" finden und ersetzen.
-Finden (Regex): `(""")([^"]+)(")+([^"]+)(""")`
-Ersetzen: `$1$2$4$5`
+
+* Finden (Regex): `(""")([^"]+)(")+([^"]+)(""")`
+* Ersetzen: `$1$2$4$5`
 
 #### Zwei Anführungszeichen innerhalb einer """{Zeichenkette}""" finden und ersetzen.
-Finden (Regex): `(""")([^"]+)(")+(.*)(")+([^"]+)(""")`
-Ersetzen: `$1$2$4$6$7`
+
+* Finden (Regex): `(""")([^"]+)(")+(.*)(")+([^"]+)(""")`
+* Ersetzen: `$1$2$4$6$7`
