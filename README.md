@@ -10,11 +10,11 @@ Place git projects
 next to each other to work. Resulting in a directory structure like this:
 
 ```
-projects
-├── glpyhs/
+projects/
+├── glyphs/
 │   ├── css/
 │   └── js/
-└── glpyhstudy/
+└── glyphstudy/
     ├── css/
     ├── data/  --> study data
     └── js/
