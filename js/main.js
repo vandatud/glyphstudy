@@ -62,20 +62,24 @@ function drawFlowerplot(noOfRows) {
     });
 }
 
+function drawTable() {
+      d3.csv('data/events.csv',function (data) {
+      var columns = ['RowID','Title','Price','Distance','Time','EstimationMusic','Popularity','Category']
+      tabulate(data,columns)
+    })
+}
+
 function clear() {
   $("table").remove(".table-fill");
   $("#plots").empty();
 }
 
 document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 49) {
+    if(event.keyCode == 49 || event.keyCode == 97) {
       clear();
-      d3.csv('data/events.csv',function (data) {
-        var columns = ['RowID','Title','Price','Distance','Time','EstimationMusic','Popularity','Category']
-        tabulate(data,columns)
-      })
+      drawTable();
     }
-    else if(event.keyCode == 50) {
+    else if(event.keyCode == 50 || event.keyCode == 98) {
         clear();
         drawFlowerplot(5);
     }
@@ -83,3 +87,5 @@ document.addEventListener('keydown', function(event) {
       console.debug("Keycode: " + event.keyCode);
     }
 });
+
+drawTable();
