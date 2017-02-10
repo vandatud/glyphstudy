@@ -20,11 +20,13 @@ startTime = datetime(2011, 2, 4, 13, 30);
 timedif = datetime.now()
 locDifference = -1;
 
+
 # csv header
+csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONE, lineterminator='\n')
 print("id, days til event, music estimate, entrance fee, kilometres from dresden centre, category name, popularity, title")
 f = open("out.csv", 'wt')
 try:
-	writer = csv.writer(f)
+	writer = csv.writer(f, dialect='escaped')
 	writer.writerow(("Id","Title","Price","Distance","Time","EstimationMusic","Popularity","Category"))
 	# for every item in json
 	for val in data["hits"]:
