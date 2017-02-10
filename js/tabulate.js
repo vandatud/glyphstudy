@@ -14,6 +14,11 @@ var tabulate = function (data,columns) {
 	    .data(data)
 	    .enter()
 	  .append('tr')
+      .attr("id", "blueLine")
+      .on("click", function(d) {
+		console.debug("Click: " + d.toSource());
+        // TODO: log selection of row
+	})
 
 	var cells = rows.selectAll('td')
 	    .data(function(row) {

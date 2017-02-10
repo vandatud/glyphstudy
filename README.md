@@ -22,7 +22,22 @@ projects/
 
 ## JavaScript Libraries
 
+### RequireJS zum Laden von Skripten und JSON
+
 Loading local files with http://requirejs.org/ via Text plugin http://requirejs.org/docs/api.html#text
+
+```JavaScript
+require(['text!../data/events.json'], function (events) {
+ var json = JSON.parse(events);
+ alert (json[0]._source.foundEventNamesAsString);
+});
+```
+
+### tabulate.js
+
+Tabellen mit D3 plotten: http://bl.ocks.org/jfreels/6814721
+
+Table Styles: http://codepen.io/alassetter/pen/cyrfB
 
 ## Data Cleaning
 
