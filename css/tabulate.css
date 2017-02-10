@@ -23,7 +23,7 @@ body {
 }
 
 th:nth-child(2) {
-    min-width: 300px;
+    min-width: 400px;
 }
  
 th {

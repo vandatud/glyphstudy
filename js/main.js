@@ -111,7 +111,6 @@ function drawFlowerplot(noOfRows) {
           .call(flower)
           .on("click", function (d) {
             console.debug("Click: " + d.toSource());
-            // TODO: log selection of row
           })
       });
     });
@@ -121,7 +120,7 @@ function drawTable() {
   d3.csv('data/out.csv', function (data) {
     // only take some rows from csv
     data = data.filter(function (row) {
-      return row['RowID'] < '50000';
+      return row['RowID'] < '19000' && row['Distance'] > '-1' && row['Category'] != 'none';
     })
     var columns = ['RowID', 'Title', 'Price', 'Distance', 'Time', 'EstimationMusic', 'Popularity', 'Category']
     tabulate(data, columns)
