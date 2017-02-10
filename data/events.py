@@ -22,7 +22,7 @@ locDifference = -1;
 
 
 # csv header
-csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONE, lineterminator='\n')
+csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONNUMERIC, lineterminator='\n')
 print("id, days til event, music estimate, entrance fee, kilometres from dresden centre, category name, popularity, title")
 f = open("out.csv", 'wt')
 try:
