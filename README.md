@@ -1,3 +1,11 @@
+# Glyph Study Project
+
+Comparing tabular data and glyphs. Place git project "glyphs" next to project "glyphstudy" to work.
+
+## JavaScript Libraries
+
+Loading local files with http://requirejs.org/ via Text plugin http://requirejs.org/docs/api.html#text
+
 ## Data Cleaning
 
 ### Mit JQ aus JSON JSONLines machen
