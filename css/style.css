@@ -16,6 +16,10 @@ body {
   margin-top: 0px;
 }
 
+#plots svg text {
+  display: none;
+}
+
 .chart {
   margin-bottom: 40px;
 }
@@ -28,10 +32,13 @@ body {
 .origin {
   fill: #333;
 }
-.star-axis, .flower-axis {
+.star-axis {
   stroke: #ccc;
-  stroke-width: 2px;
-  stroke-dasharray: 4 5;
+  stroke-width: 1px;
+  /*stroke-dasharray: 4 5;*/
+}
+
+.flower-axis {
 }
 
 .flower-path {
