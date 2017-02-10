@@ -1,6 +1,6 @@
 RowID,Title,Price,Distance,Time,EstimationMusic,Popularity,Category
 1,Tolle Veranstaltung,10,200,2,234,4,Kneipe
-2,Bessere Veranstaltung,12,2,2,4,Disko
-3,Schlechte Veranstaltung,14,2,23,4,Cafe
-4,Gute Veranstaltung,0,2,999,4,Kneipe
-5,Andere Veranstaltung,100,2,534,4,Kneipe
+2,Bessere Veranstaltung,12,2,2,4,2,Disko
+3,Schlechte Veranstaltung,14,2,23,4,8,Cafe
+4,Gute Veranstaltung,0,2,999,4,9,Kneipe
+5,Andere Veranstaltung,100,2,534,4,10,Kneipe
