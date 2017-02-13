@@ -1,4 +1,4 @@
-require(["utils", "configuration", "tabulate", "logger"], function(Utils, Configuration, Tabulate, Logger) {
+require(["utils", "configuration", "tabulate", "logger", "dataprovider"], function(Utils, Configuration, Tabulate, Logger, DataProvider) {
   function drawStarplot() {
     d3
       .csv("data/out.csv")
@@ -159,6 +159,7 @@ require(["utils", "configuration", "tabulate", "logger"], function(Utils, Config
   });
 
   $(document).ready(function() {
+    
     if (Utils.urlParam("aufgabe")) {
       aufgabe = parseInt(Utils.urlParam("aufgabe").split("_")[0]);
       subAufgabe = Utils.urlParam("aufgabe").split("_")[1];
