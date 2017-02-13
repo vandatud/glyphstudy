@@ -16,9 +16,14 @@ body {
   margin-top: 0px;
 }
 
+#plots svg .title {
+  display: none;
+}
+
 #plots svg text {
   display: none;
 }
+
 
 .chart {
   margin-bottom: 40px;
