@@ -24,6 +24,6 @@ define(function() {
     scale: scale,
     plotWidth: plotWidth,
     plotHeight: plotHeight,
-    maxItems: 100
+    maxItems: 226
   };
 });

@@ -71,7 +71,10 @@ require(
         "Popularity",
         "Category"
       ];
-      Tabulate.printTable(DataProvider.data, columns);
+      var half = (Configuration.maxItems / 2);
+      Logger.log("Half: " + half);
+      Tabulate.printTable(DataProvider.data.slice(0, half), columns);
+      Tabulate.printTable(DataProvider.data.slice(half, Configuration.maxItems), columns);
     }
 
     function clear() {

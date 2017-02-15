@@ -30,7 +30,13 @@ define(["logger"], function(Logger) {
         .selectAll("td")
         .data(function(row) {
           return columns.map(function(column) {
-            return { column: column, value: row[column] };
+            var output = row[column];
+            var dbl = parseFloat(row[column]);
+            if (!isNaN(dbl)) 
+            {
+              output = dbl.toFixed(3);
+            }
+            return { column: column, value: output };
           });
         })
         .enter()
