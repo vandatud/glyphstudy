@@ -28,14 +28,12 @@ maxPreis = 0
 minEntfernung = 1000
 maxEntfernung = 0
 countOfCategories = {}
-
-# commata in price need this D:
-locale.setlocale(locale.LC_ALL, 'deu_deu')
+einschlussKategorien = {"arts/entertainment/nightlife", "musician/band", "sports/recreation/activities", "tours/sightseeing", "travel/leisure", "education", "health/beauty", "pet services"}
 
 # csv header and preferences
 csv.register_dialect('escaped', escapechar='\\', doublequote=False, quoting=csv.QUOTE_NONNUMERIC, lineterminator='\n')
 print("id, days til event, music estimate, entrance fee, kilometres from dresden centre, category name, popularity, title")
-f = open("cleaned.csv", 'wt')
+f = open("cleaned.csv", 'wt', encoding='utf-8')
 try:
 	writer = csv.writer(f, dialect='escaped')
 	writer.writerow(("Id","Title","Price","Distance","Time","EstimationMusic","Popularity","Category"))
@@ -95,7 +93,15 @@ try:
 		ortskategorie = "none"
 		if ('eventDataEs' in val["_source"]) and ('eventData' in val["_source"]["eventDataEs"]) and ('organizer' in val["_source"]["eventDataEs"]["eventData"]) and ('category' in val["_source"]["eventDataEs"]["eventData"]["organizer"]):
 			print(val["_source"]["eventDataEs"]["eventData"]["organizer"]["category"], end=",")
-			ortskategorie = val["_source"]["eventDataEs"]["eventData"]["organizer"]["category"]
+			ortskategorie = val["_source"]["eventDataEs"]["eventData"]["organizer"]["category"].lower()
+			if ortskategorie in einschlussKategorien:
+				if ortskategorie == "travel/leisure":
+					ortskategorie = "tours/sightseeing"
+				if ortskategorie == "pet services":
+					ortskategorie = "health/beauty"
+			else:
+				hasLineAllValues = False
+				print("none", end=",")
 		else: 
 			hasLineAllValues = False
 			print("none", end=",")
@@ -146,7 +152,7 @@ try:
 				minTimeDif = frist
 			if frist > maxTimeDif:
 				maxTimeDif = frist
-			writer.writerow((id, titel, (float(preis)/79)*10, ((entfernung-0.3733972003106552)/539.4533798171345)*10, ((frist-49)/1778)*10, musikwahrscheinlichkeit/100, (popularitaet/1956)*10, ortskategorie.lower()))
+			writer.writerow((id, titel, (float(preis)/40)*10, ((entfernung-13.144975455023468)/539.4533798171345)*10, ((frist-49)/1678)*10, musikwahrscheinlichkeit/100, (popularitaet/1924)*10, ortskategorie.lower()))
 			
 finally:
     f.close()			
