@@ -15,8 +15,6 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-        if (i > 200) return;
-
         d3
           .select("#plots")
           .append("svg")
@@ -48,8 +46,6 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-        if (i > 200) return;
-
         // draw the flower
         d3
           .select("#plots")

@@ -47,7 +47,7 @@ define(["configuration"], function(Configuration) {
             });
           }
 
-          that.data = rows;
+          that.data = rows.slice(0,Configuration.maxItems);
           that.labels = labels;
           that.accessors = accessors;
         });

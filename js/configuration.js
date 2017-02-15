@@ -23,6 +23,7 @@ define(function() {
     labelMargin: labelMargin,
     scale: scale,
     plotWidth: plotWidth,
-    plotHeight: plotHeight
+    plotHeight: plotHeight,
+    maxItems: 100
   };
 });
