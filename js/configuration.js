@@ -1,13 +1,15 @@
 define(function() {
   var margin = {
-    top: 26,
-    right: 30,
+    top: 10,
+    right: 10,
     bottom: 10,
-    left: 30
+    left: 10
   };
 
-  var width = 150 - margin.left - margin.right;
-  var height = 150 - margin.top - margin.bottom;
+ // var width = 80 - margin.left - margin.right;
+//  var height = 80 - margin.top - margin.bottom;
+  var width = 50;
+  var height = 50;
   var labelMargin = 8;
 
   var scale = d3.scaleLinear().domain([0, 10]).range([0, 100]);
