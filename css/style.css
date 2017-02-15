@@ -53,6 +53,7 @@ body {
 
 .chart {
   padding: 1px;
+  cursor: pointer;
 }
 
 .currentglyph {

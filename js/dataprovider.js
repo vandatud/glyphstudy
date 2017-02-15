@@ -2,7 +2,8 @@ define(["configuration"], function(Configuration) {
   var instance = null;
 
   function DataProvider() {
-    this.data = ["Test"];
+    this.fileData = [];
+    this.data = [];
     this.accessors = [];
     this.labels = [];
 
@@ -16,7 +17,7 @@ define(["configuration"], function(Configuration) {
   }
   DataProvider.prototype = {
     initialize: function() {
-      var that=this;
+      var that = this;
       // summary:
       //      Initializes the singleton.
 
@@ -35,6 +36,9 @@ define(["configuration"], function(Configuration) {
           let pp = 0;
           let labels = [];
           let accessors = [];
+
+          var rowCount = rows.length;
+
           // get headers of the data-columns
           for (let x in rows[0]) {
             pp++;
@@ -47,10 +51,37 @@ define(["configuration"], function(Configuration) {
             });
           }
 
-          that.data = rows.slice(0,Configuration.maxItems);
+          let result = [];
+          for (i = 0; i < Configuration.maxItems; i++) {
+            var index = Math.floor(Math.random() * rowCount);
+            var item = rows[index];
+            while (result.indexOf(item) >= 0) {
+              index = Math.floor(Math.random() * rowCount);
+              item = rows[index];
+            }
+            result.push(item);
+          }
+
+          that.fileData = rows;
+          that.data = result;
           that.labels = labels;
           that.accessors = accessors;
         });
+    },
+    shuffleData: function() {
+      var that = this;
+      let result = [];
+      var rowCount = that.data.length;
+      for (i = 0; i < Configuration.maxItems; i++) {
+        var index = Math.floor(Math.random() * rowCount);
+        var item = that.fileData[index];
+        while (result.indexOf(item) >= 0) {
+          index = Math.floor(Math.random() * rowCount);
+          item = that.fileData[index];
+        }
+        result.push(item);
+      }
+      that.data = result;
     }
   };
 

@@ -6,8 +6,8 @@ define(function() {
     left: 10
   };
 
- // var width = 80 - margin.left - margin.right;
-//  var height = 80 - margin.top - margin.bottom;
+  // var width = 80 - margin.left - margin.right;
+  // var height = 80 - margin.top - margin.bottom;
   var width = 50;
   var height = 50;
   var labelMargin = 8;
@@ -26,8 +26,12 @@ define(function() {
   var explainHeight = 350 - explainMargin.top - explainMargin.bottom;
   var explainLabelMargin = 26;
 
-  var explainPlotWidth = explainWidth + explainMargin.left + explainMargin.right;
-  var explainPlotHeight = explainHeight + explainMargin.top + explainMargin.bottom;  
+  var explainPlotWidth = explainWidth +
+    explainMargin.left +
+    explainMargin.right;
+  var explainPlotHeight = explainHeight +
+    explainMargin.top +
+    explainMargin.bottom;
 
   var scale = d3.scaleLinear().domain([0, 10]).range([0, 100]);
 
@@ -44,6 +48,23 @@ define(function() {
     explainLabelMargin: explainLabelMargin,
     explainPlotWidth: explainPlotWidth,
     explainPlotHeight: explainPlotHeight,
-    maxItems: 226
+    maxItems: 226,
+    conditions: 3,
+    tasks: 12,
+    blocks: 3,
+    tasksText: [
+      "Finde die Veranstaltung mit dem höchsten Preis!",
+      "Finde die Veranstaltung, die am nächsten zum aktuellen Zeitpunkt liegt!",
+      "Finde die Veranstaltung aus der Kategorie Universität, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mit einem günstigeren Preis!",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mehr in deiner Nähe!",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen, die aber populärer ist!",
+      "Wo finden die meisten Veranstaltungen statt, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung sind? (Kategorie - außer Sonstiges)",
+      "Zu welcher Kategorie (außer Sonstiges) gehören die meisten Veranstaltungen im Umkreis von 50 km?",
+      "Zu welcher Kategorie gehören die meisten Veranstaltungen ohne Eintritt?"
+    ]
   };
 });

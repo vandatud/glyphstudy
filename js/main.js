@@ -1,6 +1,12 @@
 require(
   ["utils", "configuration", "tabulate", "logger", "dataprovider"],
   function(Utils, Configuration, Tabulate, Logger, DataProvider) {
+    var task = 0;
+    var block = 1;
+    var condition = 0;
+    var finishedConditions = [];
+    var startTest = new Date();
+
     function drawStarplot() {
       var star = d3
         .starPlot()
@@ -96,7 +102,10 @@ require(
           .labelMargin(Configuration.explainLabelMargin);
       }
 
+      var explainItem = DataProvider.data[0];
+
       DataProvider.data.some(function(d, i) {
+        explainItem = d;
         if (
           d.Price > 3 &&
             d.EstimationMusic > 1 &&
@@ -104,21 +113,21 @@ require(
             d.Time > 1 &&
             d.Popularity > 1
         ) {
-          d3
-            .select("#explainGlyph")
-            .append("svg")
-            .datum(d)
-            .attr("class", "chart")
-            .attr("width", Configuration.explainPlotWidth)
-            .attr("height", Configuration.explainPlotHeight)
-            .on("click", function(d) {
-              //itemClicked(d);
-            })
-            .append("g")
-            .call(glyph);
+          explainItem = d;
+          Logger.log("Found reference glyph");
           return true;
         }
       });
+
+      d3
+        .select("#explainGlyph")
+        .append("svg")
+        .datum(explainItem)
+        .attr("class", "chart")
+        .attr("width", Configuration.explainPlotWidth)
+        .attr("height", Configuration.explainPlotHeight)
+        .append("g")
+        .call(glyph);
     }
 
     function drawTable() {
@@ -131,56 +140,106 @@ require(
         "Category"
       ];
       var half = Configuration.maxItems / 2;
-      Logger.log("Half: " + half);
-      Tabulate.printTable(DataProvider.data.slice(0, half), columns);
+      Tabulate.printTable(DataProvider.data.slice(0, half), columns, itemClicked);
       Tabulate.printTable(
         DataProvider.data.slice(half, Configuration.maxItems),
-        columns
+        columns, itemClicked
       );
     }
 
     function clear() {
-      //$("#explainGlyph").hide();
       $("table").remove(".table-fill");
       $("#plots").empty();
       $("#explainGlyph").empty();
     }
 
     function itemClicked(d) {
-      Logger.debug("Click: " + d.toSource());
       var id = "#event_" + d.RowID;
-      $(".currentglyph").removeClass("currentglyph");
-      $(id).toggleClass("currentglyph");
+      if (condition != 1) {
+        $(".currentglyph").removeClass("currentglyph");
+        $(id).toggleClass("currentglyph");
+      } else {
+        $(".currentrow").removeClass("currentrow");
+        $(id).toggleClass("currentrow");
+      }
+      
+      var now = new Date();
+      Logger.debug("Click: " + d.toSource());
+      Logger.log("Time: " + Math.abs(now - startTest));
+
+      // TODO: Log to file!!!
+    }
+
+    function updateCondition() {
+      var cond = Math.floor(Math.random() * Configuration.conditions + 1);
+      while (finishedConditions.indexOf(cond) >= 0) {
+        cond = Math.floor(Math.random() * Configuration.conditions + 1);
+      }
+      condition = cond;
+      finishedConditions.push(condition);
+    }
+
+    function updateDisplay() {
+      if (condition == 1) drawTable();
+      if (condition == 2) drawFlowerplot();
+      if (condition == 3) drawStarplot();
     }
 
     document.addEventListener("keydown", function(event) {
       if (event.keyCode == 49 || event.keyCode == 97) {
         clear();
-        drawTable();
+        condition = 1;
+        updateDisplay()
       } else if (event.keyCode == 50 || event.keyCode == 98) {
         clear();
-        drawFlowerplot();
+        condition = 2;
+        updateDisplay()
       } else if (event.keyCode == 51 || event.keyCode == 99) {
         clear();
-        drawStarplot();
+        condition = 3;
+        updateDisplay()
+      } else if (event.keyCode == 32) {
+        task++;
+        if (block == 1 && task == 1) {
+          updateCondition();
+        }
+        if (task > Configuration.tasks) {
+          task = 1;
+          block++;
+          if (finishedConditions.length < Configuration.conditions) {
+            updateCondition();
+          }
+        }
+
+        if (block > Configuration.blocks) {
+          clear();
+          return;
+        }
+
+        Logger.log(
+          "Block: " + block + " Task: " + task + " Condition: " + condition
+        );
+
+        clear();
+        var answer = confirm(Configuration.tasksText[task]);
+        if (answer) {
+          DataProvider.shuffleData();
+          updateDisplay();
+          startTest = new Date();
+        }
+
       } else {
-        console.debug("Keycode: " + event.keyCode);
+        Logger.log("Keycode: " + event.keyCode);
       }
     });
 
     $(document).ready(function() {
-      aufgabe = 1;
-
-      if (Utils.urlParam("aufgabe")) {
-        aufgabe = parseInt(Utils.urlParam("aufgabe").split("_")[0]);
-        subAufgabe = Utils.urlParam("aufgabe").split("_")[1];
+      if (Utils.urlParam("task")) {
+        task = parseInt(Utils.urlParam("task"));
       }
-
-      if (aufgabe == 1) drawTable();
-      if (aufgabe == 2) drawFlowerplot();
-      if (aufgabe == 3) drawStarplot();
-
-      Logger.log("Selected Task: " + aufgabe);
+      if (Utils.urlParam("condition")) {
+        condition = parseInt(Utils.urlParam("condition"));
+      }
     });
   }
 );
