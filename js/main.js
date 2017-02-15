@@ -7,7 +7,7 @@ require(
         .width(Configuration.width)
         .accessors(DataProvider.accessors)
         .labels(DataProvider.labels)
-        .includeLabels(true)
+        .includeLabels(false)
         .title(function(d) {
           return d.Title;
         })
@@ -23,12 +23,13 @@ require(
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
           .on("click", function(d) {
-            Logger.debug("Click: " + d.toSource());
-            // TODO: log selection of row
+            itemClicked(d);
           })
           .append("g")
           .call(star);
       });
+
+      drawExplainGlyph("star");
     }
 
     function drawFlowerplot() {
@@ -38,10 +39,10 @@ require(
         .width(Configuration.width)
         .accessors(DataProvider.accessors)
         .labels(DataProvider.labels)
-        .includeLabels(true)
+        .includeLabels(false)
         .title(function(d) {
           return d.Title;
-        }) // unique to whiskies.csv
+        })
         .margin(Configuration.margin)
         .labelMargin(Configuration.labelMargin);
 
@@ -55,10 +56,66 @@ require(
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
           .on("click", function(d) {
-            Logger.debug("Click: " + d.toSource());
+            itemClicked(d);
           })
           .append("g")
           .call(flower);
+      });
+
+      drawExplainGlyph("flower");
+    }
+
+    function drawExplainGlyph(type) {
+      $("#plots").prepend('<div id="explainGlyph"></div>');
+      if (type == "flower") {
+        var glyph = d3
+          .flowerPlot()
+          .width(Configuration.explainWidth)
+          .accessors(DataProvider.accessors)
+          .labels(DataProvider.labels)
+          .includeLabels(true)
+          .title(function(d) {
+            return "";
+          })
+          .margin(Configuration.explainMargin)
+          .labelMargin(Configuration.explainLabelMargin);
+      }
+      if (type == "star") {
+        var glyph = d3
+          .starPlot()
+          .width(Configuration.explainWidth)
+          .accessors(DataProvider.accessors)
+          .labels(DataProvider.labels)
+          .includeLabels(true)
+          .title(function(d) {
+            return "";
+          })
+          .margin(Configuration.explainMargin)
+          .labelMargin(Configuration.explainLabelMargin);
+      }
+
+      DataProvider.data.some(function(d, i) {
+        if (
+          d.Price > 3 &&
+            d.EstimationMusic > 1 &&
+            d.Distance > 1 &&
+            d.Time > 1 &&
+            d.Popularity > 1
+        ) {
+          d3
+            .select("#explainGlyph")
+            .append("svg")
+            .datum(d)
+            .attr("class", "chart")
+            .attr("width", Configuration.explainPlotWidth)
+            .attr("height", Configuration.explainPlotHeight)
+            .on("click", function(d) {
+              //itemClicked(d);
+            })
+            .append("g")
+            .call(glyph);
+          return true;
+        }
       });
     }
 
@@ -71,15 +128,25 @@ require(
         "Popularity",
         "Category"
       ];
-      var half = (Configuration.maxItems / 2);
+      var half = Configuration.maxItems / 2;
       Logger.log("Half: " + half);
       Tabulate.printTable(DataProvider.data.slice(0, half), columns);
-      Tabulate.printTable(DataProvider.data.slice(half, Configuration.maxItems), columns);
+      Tabulate.printTable(
+        DataProvider.data.slice(half, Configuration.maxItems),
+        columns
+      );
     }
 
     function clear() {
+      //$("#explainGlyph").hide();
       $("table").remove(".table-fill");
       $("#plots").empty();
+      $("#explainGlyph").empty();
+    }
+
+    function itemClicked(d) {
+      Logger.debug("Click: " + d.toSource());
+      alert("Click: " + d.toSource());
     }
 
     document.addEventListener("keydown", function(event) {
@@ -88,10 +155,10 @@ require(
         drawTable();
       } else if (event.keyCode == 50 || event.keyCode == 98) {
         clear();
-        drawFlowerplot(5);
+        drawFlowerplot();
       } else if (event.keyCode == 51 || event.keyCode == 99) {
         clear();
-        drawStarplot(5);
+        drawStarplot();
       } else {
         console.debug("Keycode: " + event.keyCode);
       }
@@ -106,8 +173,8 @@ require(
       }
 
       if (aufgabe == 1) drawTable();
-      if (aufgabe == 2) drawFlowerplot(5);
-      if (aufgabe == 3) drawStarplot(5);
+      if (aufgabe == 2) drawFlowerplot();
+      if (aufgabe == 3) drawStarplot();
 
       Logger.log("Selected Task: " + aufgabe);
     });
