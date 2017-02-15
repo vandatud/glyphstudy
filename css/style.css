@@ -50,3 +50,12 @@ body {
   stroke-width: 1px;
   fill-opacity: 0.6;
 }
+
+.chart {
+  padding: 1px;
+}
+
+.currentglyph {
+  padding: 0px;
+  border: 1px dashed #555;
+}

@@ -19,6 +19,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
+          .attr("id", "event_" + d.RowID)
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -52,6 +53,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
+          .attr("id", "event_" + d.RowID)
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -146,7 +148,9 @@ require(
 
     function itemClicked(d) {
       Logger.debug("Click: " + d.toSource());
-      alert("Click: " + d.toSource());
+      var id = "#event_" + d.RowID;
+      $(".currentglyph").removeClass("currentglyph");
+      $(id).toggleClass("currentglyph");
     }
 
     document.addEventListener("keydown", function(event) {
