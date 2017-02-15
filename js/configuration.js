@@ -10,7 +10,7 @@ define(function() {
   var height = 150 - margin.top - margin.bottom;
   var labelMargin = 8;
 
-  var scale = d3.scaleLinear().domain([0, 999]).range([0, 100]);
+  var scale = d3.scaleLinear().domain([0, 10]).range([0, 100]);
 
   var plotWidth = width + margin.left + margin.right;
   var plotHeight = width + margin.top + margin.bottom;
