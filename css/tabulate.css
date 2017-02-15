@@ -2,7 +2,7 @@
 
 body {
   font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400;
   text-rendering: optimizeLegibility;
 }
@@ -10,11 +10,13 @@ body {
 /*** Table Styles **/
 
 .table-fill {
+  margin-left:20px;
+  margin-right:20px;
   background: white;
   /*border-radius:3px;*/
   border-collapse: collapse;
   /*height: 320px;*/
-  margin: auto;
+  /*margin: auto;*/
   /*max-width: 600px;*/
   padding:5px;
   width: 100%;
@@ -88,7 +90,10 @@ tr:last-child td:last-child {
  
 td {
   background:#FFFFFF;
-  padding:5px;
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align:left;
   vertical-align:middle;
   font-weight:300;

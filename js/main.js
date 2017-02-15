@@ -15,7 +15,7 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-       // if (i > 200) return;
+       if (i > 100) return;
 
         d3
           .select("#plots")
@@ -48,7 +48,7 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-       // if (i > 200) return;
+        if (i > 100) return;
 
         // draw the flower
         d3
