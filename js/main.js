@@ -15,7 +15,7 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-       if (i > 100) return;
+        if (i > 200) return;
 
         d3
           .select("#plots")
@@ -48,7 +48,7 @@ require(
         .labelMargin(Configuration.labelMargin);
 
       DataProvider.data.forEach(function(d, i) {
-        if (i > 100) return;
+        if (i > 200) return;
 
         // draw the flower
         d3
@@ -67,23 +67,15 @@ require(
     }
 
     function drawTable() {
-      d3.csv("data/cleaned.csv", function(data) {
-        // only take some rows from csv
-        // data = data.filter(function(row) {
-        //   return row["RowID"] < "19000" &&
-        //     row["Distance"] > "-1" &&
-        //     row["Category"] != "none";
-        // });
-        var columns = [
-          "Price",
-          "Distance",
-          "Time",
-          "EstimationMusic",
-          "Popularity",
-          "Category"
-        ];
-        Tabulate.printTable(DataProvider.data, columns);
-      });
+      var columns = [
+        "Price",
+        "Distance",
+        "Time",
+        "EstimationMusic",
+        "Popularity",
+        "Category"
+      ];
+      Tabulate.printTable(DataProvider.data, columns);
     }
 
     function clear() {
