@@ -38,7 +38,7 @@ define(["logger"], function(Logger) {
         .enter()
         .append("tr")
         .attr("id", function(d) {
-          return "event_" + d.RowID;
+          return "event_" + d.Id;
         })
         .attr("class", function(d) {
           var index = colorDomain.indexOf(d.Category);

@@ -152,7 +152,9 @@ try:
 				minTimeDif = frist
 			if frist > maxTimeDif:
 				maxTimeDif = frist
-			writer.writerow((id, titel, (float(preis)/40)*10, ((entfernung-13.144975455023468)/539.4533798171345)*10, ((frist-49)/1678)*10, musikwahrscheinlichkeit/100, (popularitaet/1924)*10, ortskategorie.lower()))
+			if popularitaet > 500:
+				popularitaet = 500
+			writer.writerow((id, titel, (float(preis)/40)*10, ((entfernung-13.144975455023468)/539.4533798171345)*10, ((frist-49)/1678)*10, musikwahrscheinlichkeit/100, (popularitaet/500)*10, ortskategorie.lower()))
 			
 finally:
     f.close()			

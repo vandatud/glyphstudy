@@ -38,7 +38,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
-          .attr("id", "event_" + d.RowID)
+          .attr("id", "event_" + d.Id)
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -76,7 +76,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
-          .attr("id", "event_" + d.RowID)
+          .attr("id", "event_" + d.Id)
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -255,6 +255,11 @@ require(
       clear();
       DataProvider.shuffleData();
       // TODO: Prepare reference glyphs according to task number
+
+      DataProvider.data.foreach(function(d,i){
+
+      });
+
       var answer = confirm(Configuration.tasksText[task]);
       if (answer) {        
         updateDisplay();
