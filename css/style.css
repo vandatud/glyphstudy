@@ -60,6 +60,14 @@ body {
   border: 2px dashed #555 !important;
 }
 
+.highlightGlyph {
+  background: #aaa !important;  
+}
+
+tr.highlightGlyph {
+  height: 100px;
+}
+
 #explainGlyph .chart {
   padding: 2px;
   float: left;

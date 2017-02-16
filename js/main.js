@@ -4,7 +4,8 @@ require(
     // identifies the study participant by id / use GET param ./index.html?participant={id}
     var participant = -1;
     // current task of the study
-    var task = 0;
+    var task = 1;
+    var startTask = 2;
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
@@ -156,15 +157,16 @@ require(
         .append("g")
         .call(glyph);
 
-      $("#explainGlyph").append('<div id="legend">' +
-        '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
-        '<div class="box sport"></div><div class="box-explain">Sport</div>' +
-        '<div class="box bildung"></div><div class="box-explain">Bildung</div>' +
-        '<div class="box band"></div><div class="box-explain">Band</div>' +
-        '<div class="box tourismus"></div><div class="box-explain">Tourismus</div>' + 
-        '<div class="box beauty"></div><div class="box-explain">Beauty</div>' + 
-        '</div>');
-
+      $("#explainGlyph").append(
+        '<div id="legend">' +
+          '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
+          '<div class="box sport"></div><div class="box-explain">Sport</div>' +
+          '<div class="box bildung"></div><div class="box-explain">Bildung</div>' +
+          '<div class="box band"></div><div class="box-explain">Band</div>' +
+          '<div class="box tourismus"></div><div class="box-explain">Tourismus</div>' +
+          '<div class="box beauty"></div><div class="box-explain">Beauty</div>' +
+          "</div>"
+      );
     }
 
     /**
@@ -273,21 +275,59 @@ require(
       if (task == 1) {
         var eventId = -1;
         var highestPrice = 0;
-        DataProvider.data.forEach(function(d,i){
+        DataProvider.data.forEach(function(d, i) {
           if (d.Price > highestPrice) {
             highestPrice = d.Price;
-            eventId = d.Id;            
+            eventId = d.Id;
           }
         });
+        currentTarget = eventId;
+        Logger.log(
+          "Event with highest price: " + eventId + " with price " + highestPrice
+        );
       }
-      currentTarget = eventId;
-      Logger.log("Event with highest price: " + eventId + " with price " + highestPrice);
 
-      
+      // find event with nearest time
+      if (task == 2) {
+        var eventId = -1;
+        var nearestTime = 99;
+        DataProvider.data.forEach(function(d, i) {
+          if (d.Time < nearestTime) {
+            nearestTime = d.Time;
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        Logger.log(
+          "Event with nearest time: " +
+            eventId +
+            " with nearest time " +
+            nearestTime
+        );
+      }
+
+      // find event with nearest time
+      if (task == 3) {
+        var eventId = -1;
+        var nearestTime = 99;
+        DataProvider.data.forEach(function(d, i) {
+          if (d.Time < nearestTime) {
+            nearestTime = d.Time;
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        Logger.log(
+          "Event with nearest time: " +
+            eventId +
+            " with nearest time " +
+            nearestTime
+        );
+      }
 
       var answer = confirm(Configuration.tasksText[task - 1]);
-      if (answer) {        
-        updateDisplay();
+      if (answer) {
+        updateDisplay();        
         trialRunning = true;
         startTest = new Date();
       }
@@ -298,7 +338,7 @@ require(
      */
     function advanceStudy() {
       task++;
-      if (block == 1 && task == 1) {
+      if (block == 1 && task == startTask) {
         // study begins
         updateCondition();
       }
@@ -330,6 +370,11 @@ require(
       prepareTask();
     }
 
+    function highlightTarget(id) {
+      var element = "#event_" + id;
+      $(element).toggleClass("highlightGlyph");
+    }
+
     // enable keyboard interaction
     document.addEventListener("keydown", function(event) {
       if (event.keyCode == 49 || event.keyCode == 97) {
@@ -355,6 +400,9 @@ require(
         // tab
         // repeat task if something went wrong with rendering / etc.
         prepareTask();
+      } else if (event.keyCode == 173) {
+        // "-" key
+        highlightTarget(currentTarget);      
       } else {
         Logger.log("Keycode: " + event.keyCode);
       }
@@ -374,7 +422,15 @@ require(
       if (participant < 0) participant = 1;
 
       // Show initial study instructions
-      $("#plots").append("<h1>Studie bereit<br /><br />Teilnehmernummer: " + participant + "<br />Blöcke: " + Configuration.blocks + "<br />Aufgaben pro Block: " + Configuration.tasks + "<br /><br />&lt;Leertaste&gt; um zu beginnen.</h1>");
+      $("#plots").append(
+        "<h1>Studie bereit<br /><br />Teilnehmernummer: " +
+          participant +
+          "<br />Blöcke: " +
+          Configuration.blocks +
+          "<br />Aufgaben pro Block: " +
+          Configuration.tasks +
+          "<br /><br />&lt;Leertaste&gt; um zu beginnen.</h1>"
+      );
     });
   }
 );

@@ -9,7 +9,8 @@ define(dependencies, function() {
     "Task",
     "Time",
     "Accuracy",
-    "Item"
+    "Target",
+    "SelectedItem"
   ];
   var eventLog = [];
   var eventId = 1;
@@ -21,7 +22,7 @@ define(dependencies, function() {
     debug: function(message) {
       console.debug(message);
     },
-    event: function(participant, block, condition, task, time, accuracy, item) {
+    event: function(participant, block, condition, task, time, accuracy, target, selectedItem) {
       // write csv header
       if (eventId == 1) {
         var header = eventColumns.join(";");
@@ -41,7 +42,9 @@ define(dependencies, function() {
         ";" +
         accuracy +
         ";" +
-        item;
+        target +
+        ";" +
+        selectedItem;
       eventLog.push(message);
       console.debug(message);
       eventId++;
