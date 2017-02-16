@@ -280,9 +280,10 @@ require(
           }
         });
       }
-
       currentTarget = eventId;
       Logger.log("Event with highest price: " + eventId + " with price " + highestPrice);
+
+      
 
       var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {        
