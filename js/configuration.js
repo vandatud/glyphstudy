@@ -55,16 +55,16 @@ define(function() {
     tasksText: [
       "Finde die Veranstaltung mit dem höchsten Preis!",
       "Finde die Veranstaltung, die am nächsten zum aktuellen Zeitpunkt liegt!",
-      "Finde die Veranstaltung aus der Kategorie Universität, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung aus der Kategorie Health/Beauty, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
       "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
       "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
       "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
       "Finde die ähnlichste Veranstaltung zu der angegebenen aber mit einem günstigeren Preis!",
       "Finde die ähnlichste Veranstaltung zu der angegebenen aber mehr in deiner Nähe!",
       "Finde die ähnlichste Veranstaltung zu der angegebenen, die aber populärer ist!",
-      "Wo finden die meisten Veranstaltungen statt, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung sind? (Kategorie - außer Sonstiges)",
-      "Zu welcher Kategorie (außer Sonstiges) gehören die meisten Veranstaltungen im Umkreis von 50 km?",
-      "Zu welcher Kategorie gehören die meisten Veranstaltungen ohne Eintritt?"
+      "Welche Veranstaltung hat die meisten niedrigsten Ausprägungen?",
+      "Welche Veranstaltung hat die meisten höchsten Ausprägungen?",
+      "Zu welcher Kategorie gehören die meisten Veranstaltungen ohne Eintritt? Klicke eine Glyphe an, die dieser Kategorie entspricht!"
     ]
   };
 });
