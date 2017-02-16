@@ -47,7 +47,7 @@ define(dependencies, function() {
       eventId++;
     },
     getEventLog: function() {
-      return eventLog.join("\n");
+      return eventLog;
     }
   };
 

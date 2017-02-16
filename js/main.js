@@ -2,19 +2,19 @@ require(
   ["utils", "configuration", "tabulate", "logger", "dataprovider"],
   function(Utils, Configuration, Tabulate, Logger, DataProvider) {
     // identifies the study participant by id / use GET param ./index.html?participant={id}
-    var participant = -1; 
+    var participant = -1;
     // current task of the study
-    var task = 0; 
+    var task = 0;
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
-    var condition = 0; 
+    var condition = 0;
     // save the already finished conditions of the study
-    var finishedConditions = []; 
+    var finishedConditions = [];
     // used to pause and disable study functions
-    var trialRunning = false; 
+    var trialRunning = false;
     // save the start time of each trial / task
-    var startTest = new Date(); 
+    var startTest = new Date();
 
     /**
      * Draws an array of star plots into #pots div
@@ -219,8 +219,8 @@ require(
         accuracy,
         d.RowID
       );
-	  
-	  Logger.log("ID Clicked: " + d.RowID);
+
+      Logger.log("ID Clicked: " + d.RowID);
 
       // do not log more events / disable click handler?
       trialRunning = false;
@@ -253,9 +253,10 @@ require(
      */
     function prepareTask() {
       clear();
+      DataProvider.shuffleData();
+      // TODO: Prepare reference glyphs according to task number
       var answer = confirm(Configuration.tasksText[task]);
-      if (answer) {
-        DataProvider.shuffleData();
+      if (answer) {        
         updateDisplay();
         trialRunning = true;
         startTest = new Date();
@@ -283,7 +284,10 @@ require(
       if (block > Configuration.blocks) {
         // study is done
         clear();
-        alert(Logger.getEventLog());
+        var log = Logger.getEventLog();
+        Utils.saveTextAsFile(log.join("\n"), "study_" + participant + ".csv");
+        Logger.log(log.join("\n")); // log to console - better safe than sorry
+        $("#plots").append("<h1>Geschafft!</h1>");
         return;
       }
 
@@ -315,6 +319,7 @@ require(
         updateDisplay();
       } else if (event.keyCode == 32) {
         // space bar
+        if (trialRunning) return;
         advanceStudy();
       } else if (event.keyCode == 9) {
         // tab
@@ -336,6 +341,10 @@ require(
       if (Utils.urlParam("participant")) {
         participant = parseInt(Utils.urlParam("participant"));
       }
+      if (participant < 0) participant = 1;
+
+      // Show initial study instructions
+      $("#plots").append("<h1>Studie bereit<br /><br />Teilnehmernummer: " + participant + "<br />Blöcke: " + Configuration.blocks + "<br />Aufgaben pro Block: " + Configuration.tasks + "<br /><br />&lt;Leertaste&gt; um zu beginnen.</h1>");
     });
   }
 );

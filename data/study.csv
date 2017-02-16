@@ -1,3 +1,7 @@
-Id;Participant;Block;Condition;Trial;Time;Accuracy;Item
-1;1;1;2;1;770;0;777079
-2;1;1;2;2;803;0;191897
+Id;Participant;Block;Condition;Task;Time;Accuracy;Item
+1;1;1;3;1;1965;0;852853
+2;1;1;3;2;1184;0;707981
+3;1;2;1;1;427;0;569795
+4;1;2;1;2;381;0;200504
+5;1;3;2;1;953;0;792046
+6;1;3;2;2;637;0;535895
