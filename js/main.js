@@ -153,6 +153,16 @@ require(
         .attr("height", Configuration.explainPlotHeight)
         .append("g")
         .call(glyph);
+
+      $("#explainGlyph").append('<div id="legend">' +
+        '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
+        '<div class="box sport"></div><div class="box-explain">Sport</div>' +
+        '<div class="box bildung"></div><div class="box-explain">Bildung</div>' +
+        '<div class="box band"></div><div class="box-explain">Band</div>' +
+        '<div class="box tourismus"></div><div class="box-explain">Tourismus</div>' + 
+        '<div class="box beauty"></div><div class="box-explain">Beauty</div>' + 
+        '</div>');
+
     }
 
     /**
@@ -256,9 +266,9 @@ require(
       DataProvider.shuffleData();
       // TODO: Prepare reference glyphs according to task number
 
-      DataProvider.data.foreach(function(d,i){
+      // DataProvider.data.foreach(function(d,i){
 
-      });
+      // });
 
       var answer = confirm(Configuration.tasksText[task]);
       if (answer) {        

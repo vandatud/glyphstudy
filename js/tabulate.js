@@ -1,14 +1,7 @@
-define(["logger"], function(Logger) {
+define(["logger", "utils"], function(Logger, Utils) {
   var tabulate = {
     printTable: function(data, columns, callback) {
-      var colorDomain = [
-        "arts/entertainment/nightlife",
-        "sports/recreation/activities",
-        "education",
-        "musician/band",
-        "tours/sightseeing",
-        "health/beauty"
-      ];
+      let colorDomain = ['Entertainment', 'Sport', 'Bildung', 'Band', 'Tourismus', 'Beauty'];
       var colorRange = [
         "artsrow",
         "sportsrow",
@@ -29,7 +22,7 @@ define(["logger"], function(Logger) {
         .enter()
         .append("th")
         .text(function(d) {
-          return d;
+          return Utils.translate(d);
         });
 
       var rows = tbody

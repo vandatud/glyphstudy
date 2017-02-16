@@ -1,4 +1,4 @@
-define(["configuration"], function(Configuration) {
+define(["configuration", "utils"], function(Configuration, Utils) {
   var instance = null;
 
   function DataProvider() {
@@ -43,8 +43,7 @@ define(["configuration"], function(Configuration) {
           for (let x in rows[0]) {
             pp++;
             if (typeof rows[0][x] === "string") continue;
-            if (x == "RowID" || x == "Category") continue; // TODO: Make this configurable?
-            labels.push(x); // name of the column
+            labels.push(Utils.translate(x)); // name of the column
             // a linear scale for the current data entry
             accessors.push(function(d) {
               return Configuration.scale(d[x]);

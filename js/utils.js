@@ -40,6 +40,19 @@ define({
 
     downloadLink.click();
   },
+  translate: function(word) {
+    var mapping = {};
+    mapping["EstimationMusic"] = "Mit Musik";
+    mapping["Price"] = "Preis";
+    mapping["Time"] = "Zeit";
+    mapping["Distance"] = "Entfernung";
+    mapping["Popularity"] = "Popularität";
+    mapping["Category"] = "Kategorie";
+
+    if(!(word in mapping)) return word;
+
+    return mapping[word];
+  },
   foo: function() {
     alert("bar");
   }

@@ -154,7 +154,22 @@ try:
 				maxTimeDif = frist
 			if popularitaet > 500:
 				popularitaet = 500
-			writer.writerow((id, titel, (float(preis)/40)*10, ((entfernung-13.144975455023468)/539.4533798171345)*10, ((frist-49)/1678)*10, musikwahrscheinlichkeit/100, (popularitaet/500)*10, ortskategorie.lower()))
+			if ortskategorie == "arts/entertainment/nightlife":
+				ortskategorie = "Entertainment"
+			if ortskategorie == "education":
+				ortskategorie = "Bildung"
+			if ortskategorie == "musician/band":
+				ortskategorie = "Band"
+			if ortskategorie == "tours/sightseeing":
+				ortskategorie = "Tourismus"
+			if ortskategorie == "health/beauty":
+				ortskategorie = "Beauty"
+			if ortskategorie == "sports/recreation/activities":
+				ortskategorie = "Sport"				
+			entfernung = ((entfernung-13.144975455023468)/539.4533798171345)*10
+			if entfernung < 0:
+				entfernung = 0
+			writer.writerow((id, titel, (float(preis)/40)*10, entfernung, ((frist-49)/1678)*10, musikwahrscheinlichkeit/100, (popularitaet/500)*10, ortskategorie))
 			
 finally:
     f.close()			

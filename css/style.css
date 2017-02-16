@@ -5,13 +5,7 @@ body {
   padding-left: 50px;
 }
 
-#explainGlyph {
-  margin-top: 20px;
-  border: 1px solid #555;
-  width: 350px;  
-}
-
-#plots {
+#plots {  
   margin-top: 0px;
 }
 
@@ -64,4 +58,66 @@ body {
 .currentglyph {
   padding: 0px !important;
   border: 2px dashed #555 !important;
+}
+
+#explainGlyph .chart {
+  padding: 2px;
+  float: left;
+  margin-top: 20px;
+  border: 1px solid #555 !important;
+  width: 350px;  
+}
+
+#legend:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#legend {
+  padding-top: 295px;
+  margin-left: 400px;
+}
+
+#legend td {
+  width: 200px;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  float: left;
+}
+
+.box-explain {
+  padding-left: 10px;
+  padding-top: 16px;
+  height: 50px;
+  width: 100px;
+  float: left;
+}
+
+.entertainment {
+  background: #3A7477;
+}
+
+.sport {
+  background: #C5BA60;    
+}
+  
+.bildung {
+  background: #C58E60;
+}
+
+.band {
+  background: #8FB558;
+}
+
+.tourismus {
+background: #604786;
+
+}
+
+.beauty {
+  background: #A55177;
 }
