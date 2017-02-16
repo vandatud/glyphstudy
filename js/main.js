@@ -15,6 +15,8 @@ require(
     var trialRunning = false;
     // save the start time of each trial / task
     var startTest = new Date();
+    // the target for the trial
+    var currentTarget = -1;
 
     /**
      * Draws an array of star plots into #pots div
@@ -227,10 +229,11 @@ require(
         task,
         time,
         accuracy,
-        d.RowID
+        currentTarget,
+        d.Id
       );
 
-      Logger.log("ID Clicked: " + d.RowID);
+      Logger.log("ID Clicked: " + d.Id);
 
       // do not log more events / disable click handler?
       trialRunning = false;
@@ -266,11 +269,22 @@ require(
       DataProvider.shuffleData();
       // TODO: Prepare reference glyphs according to task number
 
-      // DataProvider.data.foreach(function(d,i){
+      // find event with highest price
+      if (task == 1) {
+        var eventId = -1;
+        var highestPrice = 0;
+        DataProvider.data.forEach(function(d,i){
+          if (d.Price > highestPrice) {
+            highestPrice = d.Price;
+            eventId = d.Id;            
+          }
+        });
+      }
 
-      // });
+      currentTarget = eventId;
+      Logger.log("Event with highest price: " + eventId + " with price " + highestPrice);
 
-      var answer = confirm(Configuration.tasksText[task]);
+      var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {        
         updateDisplay();
         trialRunning = true;

@@ -76,7 +76,8 @@ body {
 
 #legend {
   padding-top: 295px;
-  margin-left: 400px;
+  margin-left: 380px;
+  padding-bottom: 20px;
 }
 
 #legend td {
@@ -92,9 +93,11 @@ body {
 .box-explain {
   padding-left: 10px;
   padding-top: 16px;
-  height: 50px;
+  padding-right: 5px;
+  height: 32px;
   width: 100px;
   float: left;
+  font-size: 15px;
 }
 
 .entertainment {
