@@ -1,13 +1,20 @@
 require(
   ["utils", "configuration", "tabulate", "logger", "dataprovider"],
   function(Utils, Configuration, Tabulate, Logger, DataProvider) {
-    var participant = -1;
-    var task = 0;
+    // identifies the study participant by id / use GET param ./index.html?participant={id}
+    var participant = -1; 
+    // current task of the study
+    var task = 0; 
+    // current block of the study
     var block = 1;
-    var condition = 0;
-    var finishedConditions = [];
-    var trialRunning = false;
-    var startTest = new Date();
+    // current condition which is randomized during the study
+    var condition = 0; 
+    // save the already finished conditions of the study
+    var finishedConditions = []; 
+    // used to pause and disable study functions
+    var trialRunning = false; 
+    // save the start time of each trial / task
+    var startTest = new Date(); 
 
     /**
      * Draws an array of star plots into #pots div
@@ -88,7 +95,9 @@ require(
      * Uses glyph project 
      */
     function drawExplainGlyph(type) {
+      // add div area for explain glyph
       $("#plots").prepend('<div id="explainGlyph"></div>');
+      // select glyph type
       if (type == "flower") {
         var glyph = d3
           .flowerPlot()
@@ -118,6 +127,7 @@ require(
 
       var explainItem = DataProvider.data[0];
 
+      // Find a good reference item to explain axis with values for each category
       DataProvider.data.some(function(d, i) {
         explainItem = d;
         if (
@@ -133,6 +143,7 @@ require(
         }
       });
 
+      // draw the explain glyph
       d3
         .select("#explainGlyph")
         .append("svg")
@@ -195,7 +206,10 @@ require(
 
       var now = new Date();
       var time = Math.abs(now - startTest);
-      var accuracy = 0; // TODO: Compare target and selected event!
+
+      // TODO: Compare target and selected event according to selected task!
+      var accuracy = 0;
+
       Logger.event(
         participant,
         block,
@@ -206,7 +220,7 @@ require(
         d.RowID
       );
 
-      // TODO: do not log more events / disable click handler?
+      // do not log more events / disable click handler?
       trialRunning = false;
     }
 
