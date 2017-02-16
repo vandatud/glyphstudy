@@ -1,15 +1,15 @@
 define(function() {
   var margin = {
-    top: 10,
-    right: 10,
-    bottom: 10,
-    left: 10
+    top: 15,
+    right: 17,
+    bottom: 15,
+    left: 17
   };
 
   // var width = 80 - margin.left - margin.right;
   // var height = 80 - margin.top - margin.bottom;
-  var width = 50;
-  var height = 50;
+  var width = 75;
+  var height = 75;
   var labelMargin = 8;
 
   var plotWidth = width + margin.left + margin.right;
@@ -22,8 +22,8 @@ define(function() {
     left: 50
   };
 
-  var explainWidth = 350 - explainMargin.left - explainMargin.right;
-  var explainHeight = 350 - explainMargin.top - explainMargin.bottom;
+  var explainWidth = 320 - explainMargin.left - explainMargin.right;
+  var explainHeight = 320 - explainMargin.top - explainMargin.bottom;
   var explainLabelMargin = 26;
 
   var explainPlotWidth = explainWidth +

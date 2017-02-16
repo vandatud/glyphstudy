@@ -195,7 +195,7 @@ require(
     function itemClicked(d) {
       if (!trialRunning) return;
 
-      var id = "#event_" + d.RowID;
+      var id = "#event_" + d.Id;
       if (condition != 1) {
         $(".currentglyph").removeClass("currentglyph");
         $(id).toggleClass("currentglyph");

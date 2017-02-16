@@ -1,8 +1,8 @@
-body {
-  width: 100%;
+body {  
   margin: auto;
   font-family: Arial;
   background-color: #eee;
+  padding-left: 50px;
 }
 
 #explainGlyph {
@@ -27,7 +27,7 @@ body {
   font-size: 14px;
 }
 .label {
-  font-size: 11px;
+  font-size: 14px;
 }
 .origin {
   fill: transparent;
@@ -52,11 +52,16 @@ body {
 }
 
 .chart {
-  padding: 1px;
+  padding: 2px;
   cursor: pointer;
 }
 
-.currentglyph {
-  padding: 0px;
+.chart:hover {
+  padding: 1px;
   border: 1px dashed #555;
+}
+
+.currentglyph {
+  padding: 0px !important;
+  border: 2px dashed #555 !important;
 }

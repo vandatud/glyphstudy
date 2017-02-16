@@ -11,8 +11,8 @@ body {
 
 .table-fill {
   float: left;
-  margin-left:20px;
-  margin-right:20px;
+  margin-left:10px;
+  margin-right:10px;
   background: white;
   /*border-radius:3px;*/
   border-collapse: collapse;
