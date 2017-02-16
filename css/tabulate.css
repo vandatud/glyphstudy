@@ -64,9 +64,39 @@ tr {
   color:#FFFFFF;
   /*border: 1px dashed #555 !important;*/
 }
- 
+
+.artsrow td {
+  background:#3A7477 !important;
+  color:#FFFFFF;
+}
+
+.sportsrow td {
+  background:#C5BA60 !important;
+  color:#FFFFFF;
+}
+
+.educationrow td {
+  background:#C58E60 !important;
+  color:#FFFFFF;
+}
+
+.musicianrow td {
+  background:#8FB558 !important;
+  color:#FFFFFF;
+}
+
+.travelrow td {
+  background:#604786 !important;
+  color:#FFFFFF;
+}
+
+.healthrow td {
+  background:#A55177 !important;
+  color:#FFFFFF;
+}
+
 tr:hover td {
-  background:#4E5066;
+  background:#4E5066 !important;
   color:#FFFFFF;
   border-top: 1px solid #22262e;
   border-bottom: 1px solid #22262e;

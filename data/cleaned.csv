@@ -1,4 +1,4 @@
-"Id","Title","Price","Distance","Time","EstimationMusic","Popularity","Category"
+"RowID","Title","Price","Distance","Time","EstimationMusic","Popularity","Category"
 "579103","AHOJ 13 - INTERNATIONALE KUNSTAUSSTELLUNG & ERÖFFNUNG DES NEUNBURGER KUNSTHERBSTS",0.0,3.696113688054882,5.4588796185935635,0.37,0.5405405405405406,"arts/entertainment/nightlife"
 "578866","Die Grosse Görlitzer Ü30 Oster Party",1.75,1.3805340222820008,6.68057210965435,10.0,1.288981288981289,"arts/entertainment/nightlife"
 "568122","Neue Konzertreihe 'Blue Sunday' - Kooperation Bayerischer Hof/Jazz Institut",0.0,6.419895632150615,5.560190703218116,10.0,10.0,"education"

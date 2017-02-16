@@ -30,7 +30,7 @@ body {
   font-size: 11px;
 }
 .origin {
-  fill: #333;
+  fill: transparent;
 }
 .star-axis {
   stroke: #ccc;
@@ -42,11 +42,11 @@ body {
 }
 
 .flower-path {
-  stroke: #555;
-  stroke-width: 1px;
+  /*stroke: #555;*/
+  stroke-width: 0.5px;
 }
 .star-path {
-  stroke: #555;
+  /*stroke: #555;*/
   stroke-width: 1px;
   fill-opacity: 0.6;
 }
