@@ -219,6 +219,8 @@ require(
         accuracy,
         d.RowID
       );
+	  
+	  Logger.log("ID Clicked: " + d.RowID);
 
       // do not log more events / disable click handler?
       trialRunning = false;

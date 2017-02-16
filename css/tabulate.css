@@ -66,33 +66,33 @@ tr {
 }
 
 .artsrow td {
-  background:#3A7477 !important;
-  color:#FFFFFF;
+  background:#99BABC !important;
+  color:#000;
 }
 
 .sportsrow td {
-  background:#C5BA60 !important;
-  color:#FFFFFF;
+  background:#FFFACF !important;
+  color:#000;
 }
 
 .educationrow td {
-  background:#C58E60 !important;
-  color:#FFFFFF;
+  background:#FFE5CF !important;
+  color:#000;
 }
 
 .musicianrow td {
-  background:#8FB558 !important;
-  color:#FFFFFF;
+  background:#DFF1C4 !important;
+  color:#000;
 }
 
-.travelrow td {
-  background:#604786 !important;
-  color:#FFFFFF;
+.toursrow td {
+  background:#B4A6C9 !important;
+  color:#000;
 }
 
 .healthrow td {
-  background:#A55177 !important;
-  color:#FFFFFF;
+  background:#E4B9CD !important;
+  color:#000;
 }
 
 tr:hover td {

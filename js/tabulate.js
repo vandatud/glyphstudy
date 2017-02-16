@@ -6,7 +6,7 @@ define(["logger"], function(Logger) {
         "sports/recreation/activities",
         "education",
         "musician/band",
-        "travel/leisure",
+        "tours/sightseeing",
         "health/beauty"
       ];
       var colorRange = [
@@ -14,7 +14,7 @@ define(["logger"], function(Logger) {
         "sportsrow",
         "educationrow",
         "musicianrow",
-        "travelrow",
+        "toursrow",
         "healthrow"
       ];
 
