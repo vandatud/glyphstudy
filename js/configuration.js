@@ -24,7 +24,7 @@ define(function() {
 
   var explainWidth = 320 - explainMargin.left - explainMargin.right;
   var explainHeight = 320 - explainMargin.top - explainMargin.bottom;
-  var explainLabelMargin = 26;
+  var explainLabelMargin = 30;
 
   var explainPlotWidth = explainWidth +
     explainMargin.left +
@@ -50,21 +50,38 @@ define(function() {
     explainPlotHeight: explainPlotHeight,
     maxItems: 226,
     conditions: 3,
-    tasks: 12,
+    tasks: 25,
     blocks: 3,
     tasksText: [
       "Finde die Veranstaltung mit dem höchsten Preis!",
+      "Finde die Veranstaltung mit der höchsten Popularität!",
+      "Finde die Veranstaltung, die am weitesten zum aktuellen Zeitpunkt entfernt ist!",
+      "Finde die Veranstaltung, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung, die am weitesten entfernt ist!",
+
+      "Finde die Veranstaltung mit dem niedrigsten  Preis!",
+      "Finde die Veranstaltung mit der niedrigsten  Popularität!",
       "Finde die Veranstaltung, die am nächsten zum aktuellen Zeitpunkt liegt!",
-      "Finde die Veranstaltung aus der Kategorie Health/Beauty, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
-      "Finde die Veranstaltung aus der Kategorie Entertainment, die den niedrigsten Wert bei Popularität hat.",
-      "Welche Veranstaltung hat in jeder Eigenschaft die niedrigsten Werte?",
-      "Welche Veranstaltung hat in jeder Eigenschaft die höchsten Werte?",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mit einem günstigeren Preis!",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mehr in deiner Nähe!",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen, die aber populärer ist!"
+      "Finde die Veranstaltung, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung, mit der größten Nähe zum aktuellen Ort!",
+
+      "Finde die Veranstaltung aus der Kategorie Beauty mit dem höchsten Preis!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!",
+      "Finde die Veranstaltung aus der Kategorie Band, die am weitesten zum aktuellen Zeitpunkt entfernt ist!",
+      "Finde die Veranstaltung aus der Kategorie Sport, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung aus der Kategorie Tourismus, die am weitesten entfernt ist!",
+
+      "Finde die Veranstaltung aus der Kategorie Entertainment mit dem niedrigsten  Preis!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment, die am nächsten  zum aktuellen Zeitpunkt liegt!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment, mit der größten Nähe zum aktuellen Ort!",
+
+      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
     ]
   };
 });

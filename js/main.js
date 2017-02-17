@@ -3,13 +3,16 @@ require(
   function(Utils, Configuration, Tabulate, Logger, DataProvider) {
     // identifies the study participant by id / use GET param ./index.html?participant={id}
     var participant = -1;
-    // current task of the study - set to 0 to start, set startTask to 1
+    // current task of the study - set startTask to number greater 0 you want to force to start with
     var task = 0;
-    var startTask = 1;
+    var startTask = 0;
+    var finishedTasks = [];
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
     var condition = 0;
+    // sequence of conditions can be parameterized by GET param ./index.html?conditions=2,3,1
+    var conditions = [1,2,3];
     // save the already finished conditions of the study
     var finishedConditions = [];
     // used to pause and disable study functions
@@ -143,6 +146,7 @@ require(
             return true;
           }
         });
+        highlightTarget(referenceId);
       } else {
         DataProvider.data.some(function(d, i) {
           explainItem = d;
@@ -171,7 +175,11 @@ require(
         .append("g")
         .call(glyph);
 
-      $("#explainGlyph").append(
+      appendLegend("#explainGlyph");
+    }
+
+    function appendLegend(elementId) {
+      $(elementId).append(
         '<div id="legend">' +
           '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
           '<div class="box sport"></div><div class="box-explain">Sport</div>' +
@@ -192,8 +200,7 @@ require(
         "Distance",
         "Time",
         "EstimationMusic",
-        "Popularity",
-        "Category"
+        "Popularity"
       ];
       var half = Configuration.maxItems / 2;
       Tabulate.printTable(
@@ -206,6 +213,9 @@ require(
         columns,
         itemClicked
       );
+
+      $("body").append('<div id="tableLegend"></div>');
+      appendLegend("#tableLegend");
     }
 
     /**
@@ -213,6 +223,7 @@ require(
      */
     function clear() {
       $("table").remove(".table-fill");
+      $("div").remove("#tableLegend");
       $("#plots").empty();
     }
 
@@ -265,7 +276,27 @@ require(
         cond = Math.floor(Math.random() * Configuration.conditions + 1);
       }
       condition = cond;
-      finishedConditions.push(condition);
+      finishedConditions.push(condition);      
+    }
+
+    /**
+     * Helper function that randomizes the tasks used in the conditions
+     */
+    function updateTask() {
+      if (finishedTasks.length == Configuration.tasks) return false;
+
+      if (startTask > 0) {
+        newTask = startTask;
+      } else {
+        var newTask = Math.floor(Math.random() * Configuration.tasks + 1);
+        while (finishedTasks.indexOf(newTask) >= 0) {
+          newTask = Math.floor(Math.random() * Configuration.tasks + 1);
+        }
+      }
+      task = newTask;
+      finishedTasks.push(task);
+
+      return true;
     }
 
     /**
@@ -292,198 +323,109 @@ require(
 
       // TODO: Prepare reference glyphs according to task number - maybe use seperate class / module
 
-      // find event with highest price
-      if (task == 1) {
-        var eventId = -1;
-        var highestPrice = 0;
-        DataProvider.data.forEach(function(d, i) {
-          if (d.Price > highestPrice) {
-            highestPrice = d.Price;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log(
-            "Event with highest price: " +
-              eventId +
-              " with price " +
-              highestPrice
-          );
-      }
+      // clear reference id for tasks without reference glyph
+      if (task <= 15) referenceId = -1;
 
-      // find event with nearest time
-      if (task == 2) {
-        var eventId = -1;
-        var nearestTime = 99;
-        DataProvider.data.forEach(function(d, i) {
-          if (d.Time < nearestTime) {
-            nearestTime = d.Time;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log(
-            "Event with nearest time: " +
-              eventId +
-              " with nearest time " +
-              nearestTime
-          );
-      }
+      // Finde die Veranstaltung mit dem höchsten Preis!
+      if (task == 1)
+        currentTarget = DataProvider.getEventByHighestAttribute("Price").Id;
+      // Finde die Veranstaltung mit der höchsten Popularität!
+      if (task == 2)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "Popularity"
+        ).Id;
+      // Finde die Veranstaltung, die am weitesten zum aktuellen Zeitpunkt entfernt ist!
+      if (task == 3)
+        currentTarget = DataProvider.getEventByHighestAttribute("Time").Id;
+      // Finde die Veranstaltung, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!
+      if (task == 4)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "EstimationMusic"
+        ).Id;
+      // Finde die Veranstaltung, die am weitesten entfernt ist!
+      if (task == 5)
+        currentTarget = DataProvider.getEventByHighestAttribute("Distance").Id;
 
-      // find event from category Beauty with highest EstimationMusic
-      if (task == 3) {
-        var eventId = -1;
-        var highestEstimationMusic = 0;
-        DataProvider.data.forEach(function(d, i) {
-          if (
-            d.Category == "Beauty" && d.EstimationMusic > highestEstimationMusic
-          ) {
-            highestEstimationMusic = d.EstimationMusic;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log(
-            "Event from category beauty with highest EstimationMusic: " +
-              eventId +
-              " with EstimationMusic " +
-              highestEstimationMusic
-          );
-      }
+      // Finde die Veranstaltung mit dem niedrigsten Preis!
+      if (task == 6)
+        currentTarget = DataProvider.getEventByLowestAttribute("Price").Id;
+      // Finde die Veranstaltung mit der niedrigsten Popularität!
+      if (task == 7)
+        currentTarget = DataProvider.getEventByLowestAttribute("Popularity").Id;
+      // Finde die Veranstaltung, die am nächsten  zum aktuellen Zeitpunkt liegt!
+      if (task == 8)
+        currentTarget = DataProvider.getEventByLowestAttribute("Time").Id;
+      // Finde die Veranstaltung, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!
+      if (task == 9)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "EstimationMusic"
+        ).Id;
+      // Finde die Veranstaltung, mit der größten Nähe zum aktuellen Ort!
+      if (task == 10)
+        currentTarget = DataProvider.getEventByLowestAttribute("Distance").Id;
 
-      // find event from category Entertainment with lowest Popularity value
-      if (task == 4) {
-        var eventId = -1;
-        var lowestPopularity = 99;
-        DataProvider.data.forEach(function(d, i) {
-          if (
-            d.Category == "Entertainment" && d.Popularity < lowestPopularity
-          ) {
-            lowestPopularity = d.Popularity;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log(
-            "Event from category Entertainment with lowest Popularity: " +
-              eventId +
-              " with Popularity " +
-              lowestPopularity
-          );
-      }
+      // Finde die Veranstaltung aus der Kategorie Beauty mit dem höchsten Preis!
+      if (task == 11) 
+        currentTarget = DataProvider.getEventByHighestAttribute("Price", "Beauty").Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
+      if (task == 12) 
+        currentTarget = DataProvider.getEventByHighestAttribute("Popularity", "Entertainment").Id;
+      // Finde die Veranstaltung aus der Kategorie Band, die am weitesten zum aktuellen Zeitpunkt entfernt ist!
+      if (task == 13) 
+        currentTarget = DataProvider.getEventByHighestAttribute("Time", "Band").Id;
+      // Finde die Veranstaltung aus der Kategorie Sport, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!
+      if (task == 14) 
+        currentTarget = DataProvider.getEventByHighestAttribute("EstimationMusic", "Sport").Id;
+      // Finde die Veranstaltung aus der Kategorie Tourismus, die am weitesten entfernt ist!
+      if (task == 15) 
+        currentTarget = DataProvider.getEventByHighestAttribute("Distance", "Tourismus").Id;
 
-      // TODO: find event with lowest value in each property
-      if (task == 5) {
-        var eventId = -1;
-        var lowestPopularity = 99;
-        var lowestTime = 99;
-        var lowestDistance = 99;
-        var lowestPrice = 99;
-        var lowestMusic = 99;
-        DataProvider.data.forEach(function(d, i) {
-          if (
-            d.Popularity + d.Time + d.Distance + d.Price + d.EstimationMusic <
-              lowestPopularity +
-                lowestTime +
-                lowestDistance +
-                lowestPrice +
-                lowestMusic
-          ) {
-            lowestPopularity = d.Popularity;
-            lowestTime = d.Time;
-            lowestDistance = d.Distance;
-            lowestPrice = d.Price;
-            lowestMusic = d.EstimationMusic;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log("Event with lowest value in each property: " + eventId);
-      }
+      // Finde die Veranstaltung aus der Kategorie Entertainment mit dem niedrigsten Preis!
+      if (task == 16) 
+        currentTarget = DataProvider.getEventByLowestAttribute("Price", "Beauty").Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
+      if (task == 17) 
+        currentTarget = DataProvider.getEventByLowestAttribute("Popularity", "Entertainment").Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment, die am nächsten  zum aktuellen Zeitpunkt liegt!
+      if (task == 18) 
+        currentTarget = DataProvider.getEventByLowestAttribute("Time", "Band").Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!
+      if (task == 19) 
+        currentTarget = DataProvider.getEventByLowestAttribute("EstimationMusic", "Sport").Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment, mit der größten Nähe zum aktuellen Ort!
+      if (task == 20) 
+        currentTarget = DataProvider.getEventByLowestAttribute("Distance", "Tourismus").Id;
 
-      // TODO: find event with highest value in each property
-      if (task == 6) {
-        var eventId = -1;
-        var highestPopularity = 0;
-        var highestTime =0;
-        var highestDistance = 0;
-        var highestPrice = 0;
-        var highestMusic = 0;
-        DataProvider.data.forEach(function(d, i) {
-          if (
-            d.Popularity + d.Time + d.Distance + d.Price + d.EstimationMusic >
-              highestPopularity +
-                highestTime +
-                highestDistance +
-                highestPrice +
-                highestMusic
-          ) {
-            highestPopularity = d.Popularity;
-            highestTime = d.Time;
-            highestDistance = d.Distance;
-            highestPrice = d.Price;
-            highestMusic = d.EstimationMusic;
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = -1;
-        if (debug)
-          Logger.log("Event with highestMusic value in each property: " + eventId);
-      }
 
       // find event most similar to 785752
-      if (task == 7) {
-        var eventId = -1;
-        var highestEstimationMusic = 0;
-        DataProvider.data.forEach(function(d, i) {
-          if (d.Id == "785752") {
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = eventId;
-        if (debug) Logger.log("Event to be found: " + eventId);
+      if (task == 21) {
+        currentTarget = 785752;
+        referenceId = currentTarget;
       }
 
       // find event most similar to 570492
-      if (task == 8) {
+      if (task == 22) {
         currentTarget = 570492;
         referenceId = currentTarget;
-        if (debug) Logger.log("Event to be found: " + eventId);
       }
 
       // find event most similar to 786416
-      if (task == 9) {
+      if (task == 23) {
         currentTarget = 786416;
         referenceId = currentTarget;
-        if (debug) Logger.log("Event to be found: " + eventId);
       }
 
-      // TODO: find event most similar to 581050 with a lower price
-      if (task == 10) {
-        var eventId = -1;
-        var highestEstimationMusic = 0;
-        var refElement = DataProvider.getEventById("581050");
-        DataProvider.data.forEach(function(d, i) {
-          if (d.Id == "786416") {
-            eventId = d.Id;
-          }
-        });
-        currentTarget = eventId;
-        referenceId = refElement.Id;
-        if (debug) Logger.log("Event to be found: " + eventId);
-      }
+      // TODO: find event most similar to 786416
+      if (task == 24) {
+        currentTarget = 786416;
+        referenceId = currentTarget;
+      } 
+
+      // TODO: find event most similar to 786416
+      if (task == 25) {
+        currentTarget = 786416;
+        referenceId = currentTarget;
+      }              
 
       // Break until user clicks OK in confirm
       var answer = confirm(Configuration.tasksText[task - 1]);
@@ -498,17 +440,17 @@ require(
      * Moves the study one trial / block further
      */
     function advanceStudy() {
-      task++;
-      if (block == 1 && task == startTask) {
-        // study begins
-        updateCondition();
+      if (task == 0) {
+        condition = conditions[block];        
       }
-      if (task > Configuration.tasks) {
+      if (!updateTask()) {
         // advance to next block / condition
-        task = 1;
+        finishedTasks = [];
+        updateTask();
         block++;
         if (finishedConditions.length < Configuration.conditions) {
-          updateCondition();
+          //updateCondition();
+          condition = conditions[block];
         }
       }
 
@@ -578,8 +520,8 @@ require(
       if (Utils.urlParam("task")) {
         task = parseInt(Utils.urlParam("task"));
       }
-      if (Utils.urlParam("condition")) {
-        condition = parseInt(Utils.urlParam("condition"));
+      if (Utils.urlParam("conditions")) {
+        conditions = Utils.urlParam("conditions").split(",");
       }
       if (Utils.urlParam("participant")) {
         participant = parseInt(Utils.urlParam("participant"));

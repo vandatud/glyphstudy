@@ -1,4 +1,8 @@
-define(["configuration", "utils"], function(Configuration, Utils) {
+define(["configuration", "utils", "logger"], function(
+  Configuration,
+  Utils,
+  Logger
+) {
   var instance = null;
 
   function DataProvider() {
@@ -89,6 +93,82 @@ define(["configuration", "utils"], function(Configuration, Utils) {
         if (d.Id == id) {
           result = d;
           return true;
+        }
+      });
+      return result;
+    },
+    getEventByHighestAttribute: function(attribute, category = "") {
+      var that = this;
+      var eventId = -1;
+      var highest = 0;
+      var result = [];
+      that.data.forEach(function(d, i) {
+        var val = -1;
+        switch (attribute) {
+          case "Price":
+            val = d.Price;
+            break;
+          case "Popularity":
+            val = d.Popularity;
+            break;
+          case "EstimationMusic":
+            val = d.EstimationMusic;
+            break;
+          case "Distance":
+            val = d.Distance;
+            break;
+          case "Time":
+            val = d.Time;
+            break;
+        }
+        if ((val > highest && category == "") || (val > highest && category == d.Category)) {
+          highest = val;
+          eventId = d.Id;
+          result = d;
+        }
+      });
+
+      // Logger.log(
+      //   "Event with highest " +
+      //     attribute +
+      //     ": " +
+      //     eventId +
+      //     " with " +
+      //     attribute +
+      //     " " +
+      //     highest
+      // );
+
+      return result;
+    },
+    getEventByLowestAttribute: function(attribute, category = "") {
+      var that = this;
+      var eventId = -1;
+      var lowest = 99;
+      var result = [];
+      that.data.forEach(function(d, i) {
+        var val = 99;
+        switch (attribute) {
+          case "Price":
+            val = d.Price;
+            break;
+          case "Popularity":
+            val = d.Popularity;
+            break;
+          case "EstimationMusic":
+            val = d.EstimationMusic;
+            break;
+          case "Distance":
+            val = d.Distance;
+            break;
+          case "Time":
+            val = d.Time;
+            break;
+        }
+        if ((val < lowest && category == "") || (val < lowest && category == d.Category)) {
+          lowest = val;
+          eventId = d.Id;
+          result = d;
         }
       });
       return result;

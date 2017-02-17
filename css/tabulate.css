@@ -12,7 +12,7 @@ body {
 .table-fill {
   float: left;
   margin-left:10px;
-  margin-right:10px;
+  margin-right:25px;
   background: white;
   /*border-radius:3px;*/
   border-collapse: collapse;
@@ -20,13 +20,9 @@ body {
   /*margin: auto;*/
   /*max-width: 600px;*/
   padding:5px;
-  width: 47%;
+  width: 40%;
   /*box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);*/
   animation: float 5s infinite;
-}
-
-th:nth-child(2) {
-    /*min-width: 100px;*/
 }
  
 th {
