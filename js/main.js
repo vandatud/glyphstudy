@@ -4,8 +4,8 @@ require(
     // identifies the study participant by id / use GET param ./index.html?participant={id}
     var participant = -1;
     // current task of the study
-    var task = 1;
-    var startTask = 2;
+    var task = 0;
+    var startTask = 1;
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
@@ -18,6 +18,10 @@ require(
     var startTest = new Date();
     // the target for the trial
     var currentTarget = -1;
+    // in case we need a reference glyph
+    var referenceId = -1;
+    // suppress debug output to console
+    var debug = true;
 
     /**
      * Draws an array of star plots into #pots div
@@ -131,20 +135,30 @@ require(
       var explainItem = DataProvider.data[0];
 
       // Find a good reference item to explain axis with values for each category
-      DataProvider.data.some(function(d, i) {
-        explainItem = d;
-        if (
-          d.Price > 3 &&
-            d.EstimationMusic > 1 &&
-            d.Distance > 1 &&
-            d.Time > 1 &&
-            d.Popularity > 1
-        ) {
+      // or select reference id
+      if (referenceId > -1) {
+        DataProvider.data.some(function(d, i) {
+          if (d.Id == referenceId) {
+            explainItem = d;
+            return true;
+          }
+        });
+      } else {
+        DataProvider.data.some(function(d, i) {
           explainItem = d;
-          Logger.log("Found reference glyph");
-          return true;
-        }
-      });
+          if (
+            d.Price > 3 &&
+              d.EstimationMusic > 1 &&
+              d.Distance > 1 &&
+              d.Time > 1 &&
+              d.Popularity > 1
+          ) {
+            explainItem = d;
+            if (debug) Logger.log("Found reference glyph");
+            return true;
+          }
+        });
+      }
 
       // draw the explain glyph
       d3
@@ -235,7 +249,7 @@ require(
         d.Id
       );
 
-      Logger.log("ID Clicked: " + d.Id);
+      if (debug) Logger.log("ID Clicked: " + d.Id);
 
       // do not log more events / disable click handler?
       trialRunning = false;
@@ -269,7 +283,8 @@ require(
     function prepareTask() {
       clear();
       DataProvider.shuffleData();
-      // TODO: Prepare reference glyphs according to task number
+
+      // TODO: Prepare reference glyphs according to task number - maybe use seperate class / module
 
       // find event with highest price
       if (task == 1) {
@@ -282,9 +297,13 @@ require(
           }
         });
         currentTarget = eventId;
-        Logger.log(
-          "Event with highest price: " + eventId + " with price " + highestPrice
-        );
+        if (debug)
+          Logger.log(
+            "Event with highest price: " +
+              eventId +
+              " with price " +
+              highestPrice
+          );
       }
 
       // find event with nearest time
@@ -298,36 +317,40 @@ require(
           }
         });
         currentTarget = eventId;
-        Logger.log(
-          "Event with nearest time: " +
-            eventId +
-            " with nearest time " +
-            nearestTime
-        );
+        if (debug)
+          Logger.log(
+            "Event with nearest time: " +
+              eventId +
+              " with nearest time " +
+              nearestTime
+          );
       }
 
-      // find event with nearest time
+      // find event from category Beauty with highest EstimationMusic
       if (task == 3) {
         var eventId = -1;
-        var nearestTime = 99;
+        var highestEstimationMusic = 0;
         DataProvider.data.forEach(function(d, i) {
-          if (d.Time < nearestTime) {
-            nearestTime = d.Time;
+          if (
+            d.Category == "Beauty" && d.EstimationMusic > highestEstimationMusic
+          ) {
+            highestEstimationMusic = d.EstimationMusic;
             eventId = d.Id;
           }
         });
         currentTarget = eventId;
-        Logger.log(
-          "Event with nearest time: " +
-            eventId +
-            " with nearest time " +
-            nearestTime
-        );
+        if (debug)
+          Logger.log(
+            "Event from category beauty with highest EstimationMusic: " +
+              eventId +
+              " with EstimationMusic time " +
+              highestEstimationMusic
+          );
       }
 
       var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {
-        updateDisplay();        
+        updateDisplay();
         trialRunning = true;
         startTest = new Date();
       }
@@ -362,9 +385,10 @@ require(
       }
 
       // log / don't log current study status
-      Logger.log(
-        "Block: " + block + " Task: " + task + " Condition: " + condition
-      );
+      if (debug)
+        Logger.log(
+          "Block: " + block + " Task: " + task + " Condition: " + condition
+        );
 
       // wait for next task / trial to begin
       prepareTask();
@@ -402,14 +426,18 @@ require(
         prepareTask();
       } else if (event.keyCode == 173) {
         // "-" key
-        highlightTarget(currentTarget);      
+        highlightTarget(currentTarget);
       } else {
-        Logger.log("Keycode: " + event.keyCode);
+        if (debug) Logger.log("Keycode: " + event.keyCode);
       }
     });
 
     // parse params from URL / study needs ./index.html?participant={id}
     $(document).ready(function() {
+      if (Utils.urlParam("nodebug")) {
+        //task = parseInt(Utils.urlParam("task"));
+        debug = false;
+      }
       if (Utils.urlParam("task")) {
         task = parseInt(Utils.urlParam("task"));
       }

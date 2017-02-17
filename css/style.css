@@ -66,11 +66,11 @@ body {
 }
 
 .highlightGlyph {
-  background: #aaa !important;  
+  background: #bbb !important;  
 }
 
 tr.highlightGlyph {
-  height: 100px;
+  height: 55px;
 }
 
 #explainGlyph .chart {
