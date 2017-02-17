@@ -15,7 +15,10 @@ body {
 }
 
 #plots svg text {
-  /*display: none;*/
+  fill: #eee;
+}
+
+#explainGlyph svg text {
   fill: #eee;
 }
 
@@ -91,6 +94,10 @@ tr.highlightGlyph {
   height: 55px;
 }
 
+#explainGlyph {
+  float: left;
+}
+
 #explainGlyph .chart {
   padding: 2px;
   float: left;
@@ -103,21 +110,26 @@ tr.highlightGlyph {
   font-size: 15px;
 }
 
-#legend:after {
+#infos {
+}
+
+#infos:after {
   content: "";
   display: table;
   clear: both;
 }
 
 #legend {
-  padding-top: 35px;
-  margin-left: 380px;
+  padding-top: 76px;
+  margin-left: 80px;
   padding-bottom: 20px;
+  float: left;
+  width: 200px;
 }
 
 #taskDescription {
   font-size: 20px;
-  padding-top: 200px;
+  padding-top: 240px;
   margin-left: 380px;
   padding-right: 15px;
   height: 60px;
@@ -127,19 +139,24 @@ tr.highlightGlyph {
   height: 300px;
 }
 
+#tableLegend #legend {
+  height: 300px;
+  margin-left: 0px !important;
+}
+
+
 .box {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   float: left;
 }
 
 .box-explain {
-  padding-left: 10px;
-  padding-top: 16px;
+  padding-left: 51px;
+  padding-top: 13px;
   padding-right: 5px;
-  height: 42px;
+  height: 33px;
   width: 100px;
-  float: left;
   font-size: 15px;
 }
 

@@ -106,7 +106,7 @@ require(
      */
     function drawExplainGlyph(type) {
       // add div area for explain glyph
-      $("#plots").prepend('<div id="explainGlyph"></div>');
+      $("#infos").prepend('<div id="explainGlyph"></div>');
       // select glyph type
       if (type == "flower") {
         var glyph = d3
@@ -182,13 +182,10 @@ require(
         .append("g")
         .call(glyph);
 
-      appendLegend("#explainGlyph");
+      appendLegend("#infos");
     }
 
-    function appendLegend(elementId) {
-      var text = task > 0 ? Configuration.tasksText[task - 1] : "";
-      $(elementId).append('<div id="taskDescription">'+text+'</div>');
-
+    function appendLegend(elementId) {      
       $(elementId).append(
         '<div id="legend">' +
           '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
@@ -199,6 +196,9 @@ require(
           '<div class="box beauty"></div><div class="box-explain">Beauty</div>' +
           "</div>"
       );
+      var text = task > 0 ? Configuration.tasksText[task - 1] : "";
+      $(elementId).append('<div id="taskDescription">'+text+'</div>');
+      
     }
 
     /**
@@ -259,6 +259,7 @@ require(
       $("div").remove("#tableLegend");
       $("div").remove("#referenceElement");
       $("#plots").empty();
+      $("#infos").empty();
     }
 
     /**
