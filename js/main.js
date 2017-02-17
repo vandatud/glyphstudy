@@ -112,12 +112,12 @@ require(
         var glyph = d3
           .flowerPlot()
           .colorRange([
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
-            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+            "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
           ])
           .width(Configuration.explainWidth)
           .accessors(DataProvider.accessors)
@@ -132,6 +132,14 @@ require(
       if (type == "star") {
         var glyph = d3
           .starPlot()
+          .colorRange([
+            "DDDDDD",
+            "DDDDDD",
+            "DDDDDD",
+            "DDDDDD",
+            "DDDDDD",
+            "DDDDDD"
+          ])
           .width(Configuration.explainWidth)
           .accessors(DataProvider.accessors)
           .labels(DataProvider.labels)
