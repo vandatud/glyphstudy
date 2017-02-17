@@ -121,7 +121,10 @@ define(["configuration", "utils", "logger"], function(
             val = d.Time;
             break;
         }
-        if ((val > highest && category == "") || (val > highest && category == d.Category)) {
+        if (
+          val > highest && category == "" ||
+            val > highest && category == d.Category
+        ) {
           highest = val;
           eventId = d.Id;
           result = d;
@@ -165,13 +168,48 @@ define(["configuration", "utils", "logger"], function(
             val = d.Time;
             break;
         }
-        if ((val < lowest && category == "") || (val < lowest && category == d.Category)) {
+        if (
+          val < lowest && category == "" ||
+            val < lowest && category == d.Category
+        ) {
           lowest = val;
           eventId = d.Id;
           result = d;
         }
       });
       return result;
+    },
+    getEventWithLowestAttributes: function(category = "") {
+      var that = this;
+      var eventId = -1;
+      var highestPopularity = 0;
+      var highestTime = 0;
+      var highestDistance = 0;
+      var highestPrice = 0;
+      var highestMusic = 0;
+      that.data.forEach(function(d, i) {
+        if (
+          d.Popularity + d.Time + d.Distance + d.Price + d.EstimationMusic >
+            highestPopularity +
+              highestTime +
+              highestDistance +
+              highestPrice +
+              highestMusic
+        ) {
+          highestPopularity = d.Popularity;
+          highestTime = d.Time;
+          highestDistance = d.Distance;
+          highestPrice = d.Price;
+          highestMusic = d.EstimationMusic;
+          eventId = d.Id;
+        }
+      });
+      currentTarget = eventId;
+      referenceId = -1;
+      if (debug)
+        Logger.log(
+          "Event with highestMusic value in each property: " + eventId
+        );
     }
   };
 

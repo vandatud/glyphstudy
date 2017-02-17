@@ -5,14 +5,14 @@ require(
     var participant = -1;
     // current task of the study - set startTask to number greater 0 you want to force to start with
     var task = 0;
-    var startTask = 0;
+    var startTask = 23;
     var finishedTasks = [];
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
     var condition = 0;
     // sequence of conditions can be parameterized by GET param ./index.html?conditions=2,3,1
-    var conditions = [1,2,3];
+    var conditions = [1, 2, 3];
     // save the already finished conditions of the study
     var finishedConditions = [];
     // used to pause and disable study functions
@@ -111,15 +111,16 @@ require(
       if (type == "flower") {
         var glyph = d3
           .flowerPlot()
+          .colorRange(["EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"])
           .width(Configuration.explainWidth)
           .accessors(DataProvider.accessors)
           .labels(DataProvider.labels)
-          .includeLabels(true)
+          .includeLabels(true)          
           .title(function(d) {
             return "";
-          })
+          })          
           .margin(Configuration.explainMargin)
-          .labelMargin(Configuration.explainLabelMargin);
+          .labelMargin(Configuration.explainLabelMargin)          
       }
       if (type == "star") {
         var glyph = d3
@@ -146,7 +147,6 @@ require(
             return true;
           }
         });
-        highlightTarget(referenceId);
       } else {
         DataProvider.data.some(function(d, i) {
           explainItem = d;
@@ -172,7 +172,7 @@ require(
         .attr("class", "chart")
         .attr("width", Configuration.explainPlotWidth)
         .attr("height", Configuration.explainPlotHeight)
-        .append("g")
+        .append("g")        
         .call(glyph);
 
       appendLegend("#explainGlyph");
@@ -214,6 +214,20 @@ require(
         itemClicked
       );
 
+      // TODO: Add reference element to side of table
+      if (referenceId > -1) {
+        var refElement = DataProvider.getEventById(referenceId);
+        $("body").append(
+          '<div id="referenceElement">' + 
+          '<span>Preis:</span>' + refElement.Price.toFixed(3) + '<br />' +
+          '<span>Entfernung:</span>' + refElement.Distance.toFixed(3) + '<br />' +
+          '<span>Zeit:</span>' + refElement.Time.toFixed(3) + '<br />' +
+          '<span>Mit Musik:</span>' + refElement.EstimationMusic.toFixed(3) + '<br />' +
+          '<span>Popularität:</span>' + refElement.Popularity.toFixed(3) + 
+          "</div>"
+        );
+      }
+
       $("body").append('<div id="tableLegend"></div>');
       appendLegend("#tableLegend");
     }
@@ -224,6 +238,7 @@ require(
     function clear() {
       $("table").remove(".table-fill");
       $("div").remove("#tableLegend");
+      $("div").remove("#referenceElement");
       $("#plots").empty();
     }
 
@@ -276,7 +291,7 @@ require(
         cond = Math.floor(Math.random() * Configuration.conditions + 1);
       }
       condition = cond;
-      finishedConditions.push(condition);      
+      finishedConditions.push(condition);
     }
 
     /**
@@ -307,11 +322,6 @@ require(
       if (condition == 1) drawTable();
       if (condition == 2) drawFlowerplot();
       if (condition == 3) drawStarplot();
-
-      // Show reference item
-      if (referenceId > -1) {
-        $(Utils.eventElement(referenceId)).toggleClass("referenceElement");
-      }
     }
 
     /**
@@ -365,37 +375,66 @@ require(
         currentTarget = DataProvider.getEventByLowestAttribute("Distance").Id;
 
       // Finde die Veranstaltung aus der Kategorie Beauty mit dem höchsten Preis!
-      if (task == 11) 
-        currentTarget = DataProvider.getEventByHighestAttribute("Price", "Beauty").Id;
+      if (task == 11)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "Price",
+          "Beauty"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
-      if (task == 12) 
-        currentTarget = DataProvider.getEventByHighestAttribute("Popularity", "Entertainment").Id;
+      if (task == 12)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "Popularity",
+          "Entertainment"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Band, die am weitesten zum aktuellen Zeitpunkt entfernt ist!
-      if (task == 13) 
-        currentTarget = DataProvider.getEventByHighestAttribute("Time", "Band").Id;
+      if (task == 13)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "Time",
+          "Band"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Sport, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 14) 
-        currentTarget = DataProvider.getEventByHighestAttribute("EstimationMusic", "Sport").Id;
+      if (task == 14)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "EstimationMusic",
+          "Sport"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Tourismus, die am weitesten entfernt ist!
-      if (task == 15) 
-        currentTarget = DataProvider.getEventByHighestAttribute("Distance", "Tourismus").Id;
+      if (task == 15)
+        currentTarget = DataProvider.getEventByHighestAttribute(
+          "Distance",
+          "Tourismus"
+        ).Id;
 
       // Finde die Veranstaltung aus der Kategorie Entertainment mit dem niedrigsten Preis!
-      if (task == 16) 
-        currentTarget = DataProvider.getEventByLowestAttribute("Price", "Beauty").Id;
+      if (task == 16)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "Price",
+          "Beauty"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
-      if (task == 17) 
-        currentTarget = DataProvider.getEventByLowestAttribute("Popularity", "Entertainment").Id;
+      if (task == 17)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "Popularity",
+          "Entertainment"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment, die am nächsten  zum aktuellen Zeitpunkt liegt!
-      if (task == 18) 
-        currentTarget = DataProvider.getEventByLowestAttribute("Time", "Band").Id;
+      if (task == 18)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "Time",
+          "Band"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 19) 
-        currentTarget = DataProvider.getEventByLowestAttribute("EstimationMusic", "Sport").Id;
+      if (task == 19)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "EstimationMusic",
+          "Sport"
+        ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment, mit der größten Nähe zum aktuellen Ort!
-      if (task == 20) 
-        currentTarget = DataProvider.getEventByLowestAttribute("Distance", "Tourismus").Id;
-
+      if (task == 20)
+        currentTarget = DataProvider.getEventByLowestAttribute(
+          "Distance",
+          "Tourismus"
+        ).Id;
 
       // find event most similar to 785752
       if (task == 21) {
@@ -419,13 +458,13 @@ require(
       if (task == 24) {
         currentTarget = 786416;
         referenceId = currentTarget;
-      } 
+      }
 
       // TODO: find event most similar to 786416
       if (task == 25) {
         currentTarget = 786416;
         referenceId = currentTarget;
-      }              
+      }
 
       // Break until user clicks OK in confirm
       var answer = confirm(Configuration.tasksText[task - 1]);
@@ -441,7 +480,7 @@ require(
      */
     function advanceStudy() {
       if (task == 0) {
-        condition = conditions[block];        
+        condition = conditions[block - 1];
       }
       if (!updateTask()) {
         // advance to next block / condition
@@ -450,7 +489,7 @@ require(
         block++;
         if (finishedConditions.length < Configuration.conditions) {
           //updateCondition();
-          condition = conditions[block];
+          condition = conditions[block - 1];
         }
       }
 
