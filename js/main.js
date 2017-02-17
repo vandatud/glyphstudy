@@ -111,16 +111,23 @@ require(
       if (type == "flower") {
         var glyph = d3
           .flowerPlot()
-          .colorRange(["EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE","EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"])
+          .colorRange([
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE",
+            "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+          ])
           .width(Configuration.explainWidth)
           .accessors(DataProvider.accessors)
           .labels(DataProvider.labels)
-          .includeLabels(true)          
+          .includeLabels(true)
           .title(function(d) {
             return "";
-          })          
+          })
           .margin(Configuration.explainMargin)
-          .labelMargin(Configuration.explainLabelMargin)          
+          .labelMargin(Configuration.explainLabelMargin);
       }
       if (type == "star") {
         var glyph = d3
@@ -172,7 +179,7 @@ require(
         .attr("class", "chart")
         .attr("width", Configuration.explainPlotWidth)
         .attr("height", Configuration.explainPlotHeight)
-        .append("g")        
+        .append("g")
         .call(glyph);
 
       appendLegend("#explainGlyph");
@@ -218,13 +225,22 @@ require(
       if (referenceId > -1) {
         var refElement = DataProvider.getEventById(referenceId);
         $("body").append(
-          '<div id="referenceElement">' + 
-          '<span>Preis:</span>' + refElement.Price.toFixed(3) + '<br />' +
-          '<span>Entfernung:</span>' + refElement.Distance.toFixed(3) + '<br />' +
-          '<span>Zeit:</span>' + refElement.Time.toFixed(3) + '<br />' +
-          '<span>Mit Musik:</span>' + refElement.EstimationMusic.toFixed(3) + '<br />' +
-          '<span>Popularität:</span>' + refElement.Popularity.toFixed(3) + 
-          "</div>"
+          '<div id="referenceElement">' +
+            "<span>Preis:</span>" +
+            refElement.Price.toFixed(3) +
+            "<br />" +
+            "<span>Entfernung:</span>" +
+            refElement.Distance.toFixed(3) +
+            "<br />" +
+            "<span>Zeit:</span>" +
+            refElement.Time.toFixed(3) +
+            "<br />" +
+            "<span>Mit Musik:</span>" +
+            refElement.EstimationMusic.toFixed(3) +
+            "<br />" +
+            "<span>Popularität:</span>" +
+            refElement.Popularity.toFixed(3) +
+            "</div>"
         );
       }
 
@@ -263,6 +279,49 @@ require(
 
       // TODO: Compare target and selected event according to selected task!
       var accuracy = 0;
+      var error = 0;
+      var target = DataProvider.getEventById(currentTarget);
+
+      // Finde die Veranstaltung mit dem Preis!
+      if (task == 1 || task == 6) accuracy = target.Price - d.Price;
+      // Finde die Veranstaltung mit der Popularität!
+      if (task == 2 || task == 7) accuracy = target.Popularity - d.Popularity;
+      // Finde die Veranstaltung, Zeitpunkt!
+      if (task == 3 || task == 8) accuracy = target.Time - d.Time;
+      // Finde die Veranstaltung, die mit Wahrscheinlichkeit eine Musikveranstaltung!
+      if (task == 4 || task == 9)
+        accuracy = target.EstimationMusic - d.EstimationMusic;
+      // Finde die Veranstaltung, Entfernung!
+      if (task == 5 || task == 10) accuracy = target.Distance - d.Distance;
+
+      if (task >= 11 && task <= 20)
+        if (d.Category != target.Category) error = 1;
+
+      // Finde die Veranstaltung aus der Kategorie mit Preis!
+      if (task == 11 || task == 16) accuracy = target.Price - d.Price;
+      // Finde die Veranstaltung aus der Kategorie mit Popularität!
+      if (task == 12 || task == 17) accuracy = target.Popularity - d.Popularity;
+      // Finde die Veranstaltung aus der Kategorie, Zeitpunkt!
+      if (task == 13 || task == 18) accuracy = target.Time - d.Time;
+      // Finde die Veranstaltung aus der Kategorie, mit Wahrscheinlichkeit eine Musikveranstaltung!
+      if (task == 14 || task == 19)
+        accuracy = target.EstimationMusic - d.EstimationMusic;
+      // Finde die Veranstaltung aus der Kategorie, Entfernung!
+      if (task == 15 || task == 20) accuracy = target.Distance - d.Distance;
+
+      // find event most similar to given event id
+      if (task >= 21 && task <= 25) {
+        accuracy = target.Price -
+          d.Price +
+          target.Popularity -
+          d.Popularity +
+          target.Time -
+          d.Time +
+          target.EstimationMusic -
+          d.EstimationMusic +
+          target.Distance -
+          d.Distance;
+      }
 
       Logger.event(
         participant,
@@ -271,13 +330,14 @@ require(
         task,
         time,
         accuracy,
+        error,
         currentTarget,
         d.Id
       );
 
       if (debug) Logger.log("ID Clicked: " + d.Id);
 
-      // do not log more events / disable click handler?
+      // do not log more events / disable click handler
       trialRunning = false;
     }
 
@@ -465,6 +525,8 @@ require(
       }
 
       // Break until user clicks OK in confirm
+      // TODO: Make a more beautiful alert box
+      Logger.log(Configuration.tasksText[task - 1]);
       var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {
         updateDisplay();
@@ -564,6 +626,8 @@ require(
         participant = parseInt(Utils.urlParam("participant"));
       }
       if (participant < 0) participant = 1;
+
+      // TODO: Parse URL params for continuation of a trial like &finishedTasks=1,2,3&finishedConditions=2,1
 
       // Show initial study instructions
       $("#plots").append(
