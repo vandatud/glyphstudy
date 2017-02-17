@@ -56,15 +56,15 @@ define(function() {
       "Finde die Veranstaltung mit dem höchsten Preis!",
       "Finde die Veranstaltung, die am nächsten zum aktuellen Zeitpunkt liegt!",
       "Finde die Veranstaltung aus der Kategorie Health/Beauty, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
-      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist!",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mit einem günstigeren Preis!",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mehr in deiner Nähe!",
-      "Finde die ähnlichste Veranstaltung zu der angegebenen, die aber populärer ist!",
+      "Finde die Veranstaltung aus der Kategorie Entertainment, die den niedrigsten Wert bei Popularität hat.",
       "Welche Veranstaltung hat in jeder Eigenschaft die niedrigsten Werte?",
       "Welche Veranstaltung hat in jeder Eigenschaft die höchsten Werte?",
-      "Zu welcher Kategorie gehören die meisten Veranstaltungen ohne Eintritt? Klicke eine Glyphe an, die dieser Kategorie entspricht!"
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
+      "Finde die Veranstaltung,die am ähnlichsten zu der angegebenen ist.",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mit einem günstigeren Preis!",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen aber mehr in deiner Nähe!",
+      "Finde die ähnlichste Veranstaltung zu der angegebenen, die aber populärer ist!"
     ]
   };
 });

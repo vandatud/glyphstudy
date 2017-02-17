@@ -81,6 +81,17 @@ define(["configuration", "utils"], function(Configuration, Utils) {
         result.push(item);
       }
       that.data = result;
+    },
+    getEventById: function(id) {
+      var that = this;
+      var result = [];
+      that.data.some(function(d, i) {
+        if (d.Id == id) {
+          result = d;
+          return true;
+        }
+      });
+      return result;
     }
   };
 

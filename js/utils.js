@@ -53,7 +53,11 @@ define({
 
     return mapping[word];
   },
-  foo: function() {
-    alert("bar");
+  eventElement: function(id, withHash = true) {
+    if (withHash) {
+      return "#event_" + id;
+    } else {
+      return "event_" + id;
+    }    
   }
 });

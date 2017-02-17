@@ -95,6 +95,11 @@ tr {
   /*border: 1px dashed #555 !important;*/
 }
 
+.referenceElement td {
+  background:#4E5066 !important;
+  color:#FFFFFF;
+}
+
 tr:hover td {
   background:#4E5066 !important;
   color:#FFFFFF;

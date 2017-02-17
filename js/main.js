@@ -3,7 +3,7 @@ require(
   function(Utils, Configuration, Tabulate, Logger, DataProvider) {
     // identifies the study participant by id / use GET param ./index.html?participant={id}
     var participant = -1;
-    // current task of the study
+    // current task of the study - set to 0 to start, set startTask to 1
     var task = 0;
     var startTask = 1;
     // current block of the study
@@ -45,7 +45,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
-          .attr("id", "event_" + d.Id)
+          .attr("id", Utils.eventElement(d.Id, false))
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -83,7 +83,7 @@ require(
           .select("#plots")
           .append("svg")
           .datum(d)
-          .attr("id", "event_" + d.Id)
+          .attr("id", Utils.eventElement(d.Id, false))
           .attr("class", "chart")
           .attr("width", Configuration.plotWidth)
           .attr("height", Configuration.plotHeight)
@@ -222,8 +222,9 @@ require(
      */
     function itemClicked(d) {
       if (!trialRunning) return;
+      if (d.Id == referenceId) return;
 
-      var id = "#event_" + d.Id;
+      var id = Utils.eventElement(d.Id);
       if (condition != 1) {
         $(".currentglyph").removeClass("currentglyph");
         $(id).toggleClass("currentglyph");
@@ -275,6 +276,11 @@ require(
       if (condition == 1) drawTable();
       if (condition == 2) drawFlowerplot();
       if (condition == 3) drawStarplot();
+
+      // Show reference item
+      if (referenceId > -1) {
+        $(Utils.eventElement(referenceId)).toggleClass("referenceElement");
+      }
     }
 
     /**
@@ -297,6 +303,7 @@ require(
           }
         });
         currentTarget = eventId;
+        referenceId = -1;
         if (debug)
           Logger.log(
             "Event with highest price: " +
@@ -317,6 +324,7 @@ require(
           }
         });
         currentTarget = eventId;
+        referenceId = -1;
         if (debug)
           Logger.log(
             "Event with nearest time: " +
@@ -339,15 +347,145 @@ require(
           }
         });
         currentTarget = eventId;
+        referenceId = -1;
         if (debug)
           Logger.log(
             "Event from category beauty with highest EstimationMusic: " +
               eventId +
-              " with EstimationMusic time " +
+              " with EstimationMusic " +
               highestEstimationMusic
           );
       }
 
+      // find event from category Entertainment with lowest Popularity value
+      if (task == 4) {
+        var eventId = -1;
+        var lowestPopularity = 99;
+        DataProvider.data.forEach(function(d, i) {
+          if (
+            d.Category == "Entertainment" && d.Popularity < lowestPopularity
+          ) {
+            lowestPopularity = d.Popularity;
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        referenceId = -1;
+        if (debug)
+          Logger.log(
+            "Event from category Entertainment with lowest Popularity: " +
+              eventId +
+              " with Popularity " +
+              lowestPopularity
+          );
+      }
+
+      // TODO: find event with lowest value in each property
+      if (task == 5) {
+        var eventId = -1;
+        var lowestPopularity = 99;
+        var lowestTime = 99;
+        var lowestDistance = 99;
+        var lowestPrice = 99;
+        var lowestMusic = 99;
+        DataProvider.data.forEach(function(d, i) {
+          if (
+            d.Popularity + d.Time + d.Distance + d.Price + d.EstimationMusic <
+              lowestPopularity +
+                lowestTime +
+                lowestDistance +
+                lowestPrice +
+                lowestMusic
+          ) {
+            lowestPopularity = d.Popularity;
+            lowestTime = d.Time;
+            lowestDistance = d.Distance;
+            lowestPrice = d.Price;
+            lowestMusic = d.EstimationMusic;
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        referenceId = -1;
+        if (debug)
+          Logger.log("Event with lowest value in each property: " + eventId);
+      }
+
+      // TODO: find event with highest value in each property
+      if (task == 6) {
+        var eventId = -1;
+        var highestPopularity = 0;
+        var highestTime =0;
+        var highestDistance = 0;
+        var highestPrice = 0;
+        var highestMusic = 0;
+        DataProvider.data.forEach(function(d, i) {
+          if (
+            d.Popularity + d.Time + d.Distance + d.Price + d.EstimationMusic >
+              highestPopularity +
+                highestTime +
+                highestDistance +
+                highestPrice +
+                highestMusic
+          ) {
+            highestPopularity = d.Popularity;
+            highestTime = d.Time;
+            highestDistance = d.Distance;
+            highestPrice = d.Price;
+            highestMusic = d.EstimationMusic;
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        referenceId = -1;
+        if (debug)
+          Logger.log("Event with highestMusic value in each property: " + eventId);
+      }
+
+      // find event most similar to 785752
+      if (task == 7) {
+        var eventId = -1;
+        var highestEstimationMusic = 0;
+        DataProvider.data.forEach(function(d, i) {
+          if (d.Id == "785752") {
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        referenceId = eventId;
+        if (debug) Logger.log("Event to be found: " + eventId);
+      }
+
+      // find event most similar to 570492
+      if (task == 8) {
+        currentTarget = 570492;
+        referenceId = currentTarget;
+        if (debug) Logger.log("Event to be found: " + eventId);
+      }
+
+      // find event most similar to 786416
+      if (task == 9) {
+        currentTarget = 786416;
+        referenceId = currentTarget;
+        if (debug) Logger.log("Event to be found: " + eventId);
+      }
+
+      // TODO: find event most similar to 581050 with a lower price
+      if (task == 10) {
+        var eventId = -1;
+        var highestEstimationMusic = 0;
+        var refElement = DataProvider.getEventById("581050");
+        DataProvider.data.forEach(function(d, i) {
+          if (d.Id == "786416") {
+            eventId = d.Id;
+          }
+        });
+        currentTarget = eventId;
+        referenceId = refElement.Id;
+        if (debug) Logger.log("Event to be found: " + eventId);
+      }
+
+      // Break until user clicks OK in confirm
       var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {
         updateDisplay();
@@ -395,8 +533,7 @@ require(
     }
 
     function highlightTarget(id) {
-      var element = "#event_" + id;
-      $(element).toggleClass("highlightGlyph");
+      $(Utils.eventElement(id)).toggleClass("highlightGlyph");
     }
 
     // enable keyboard interaction
