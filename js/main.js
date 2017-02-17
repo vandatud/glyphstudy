@@ -281,7 +281,7 @@ require(
       var time = Math.abs(now - startTest);
 
       // TODO: Compare target and selected event according to selected task!
-      var accuracy = 0;
+      var accuracy = 999;
       var error = 0;
       var target = DataProvider.getEventById(currentTarget);
 
@@ -314,7 +314,7 @@ require(
 
       // find event most similar to given event id
       if (task >= 21 && task <= 25) {
-        accuracy = target.Price -
+        accuracy = (target.Price -
           d.Price +
           target.Popularity -
           d.Popularity +
@@ -323,7 +323,7 @@ require(
           target.EstimationMusic -
           d.EstimationMusic +
           target.Distance -
-          d.Distance;
+          d.Distance) / 5;
       }
 
       Logger.event(
@@ -515,15 +515,15 @@ require(
         referenceId = currentTarget;
       }
 
-      // TODO: find event most similar to 786416
+      // TODO: find event most similar to 200223
       if (task == 24) {
-        currentTarget = 786416;
+        currentTarget = 200223;
         referenceId = currentTarget;
       }
 
-      // TODO: find event most similar to 786416
+      // TODO: find event most similar to 580880
       if (task == 25) {
-        currentTarget = 786416;
+        currentTarget = 580880;
         referenceId = currentTarget;
       }
 
@@ -604,6 +604,7 @@ require(
       } else if (event.keyCode == 9) {
         // tab
         // repeat task if something went wrong with rendering / etc.
+        if (!trialRunning) Logger.removeLastEvent();
         prepareTask();
       } else if (event.keyCode == 173) {
         // "-" key

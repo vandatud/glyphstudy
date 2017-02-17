@@ -54,6 +54,9 @@ define(dependencies, function() {
     },
     getEventLog: function() {
       return eventLog;
+    },
+    removeLastEvent: function() {
+      eventLog.pop();
     }
   };
 
