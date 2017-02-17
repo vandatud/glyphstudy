@@ -5,7 +5,7 @@ require(
     var participant = -1;
     // current task of the study - set startTask to number greater 0 you want to force to start with
     var task = 0;
-    var startTask = 23;
+    var startTask = 0;
     var finishedTasks = [];
     // current block of the study
     var block = 1;
@@ -248,7 +248,6 @@ require(
      */
     function itemClicked(d) {
       if (!trialRunning) return;
-      if (d.Id == referenceId) return;
 
       var id = Utils.eventElement(d.Id);
       if (condition != 1) {
@@ -331,8 +330,7 @@ require(
       clear();
       DataProvider.shuffleData();
 
-      // TODO: Prepare reference glyphs according to task number - maybe use seperate class / module
-
+      // Prepare reference glyphs according to task number - maybe use seperate class / module
       // clear reference id for tasks without reference glyph
       if (task <= 15) referenceId = -1;
 
