@@ -74,6 +74,7 @@ body {
   background: #333 !important;
   font-size: 15px;
   float: left;
+  margin-bottom: 20px;
 }
 
 #referenceElement span {
@@ -109,9 +110,21 @@ tr.highlightGlyph {
 }
 
 #legend {
-  padding-top: 295px;
+  padding-top: 35px;
   margin-left: 380px;
   padding-bottom: 20px;
+}
+
+#taskDescription {
+  font-size: 20px;
+  padding-top: 200px;
+  margin-left: 380px;
+  padding-right: 15px;
+  height: 60px;
+}
+
+#tableLegend #taskDescription {
+  height: 300px;
 }
 
 .box {

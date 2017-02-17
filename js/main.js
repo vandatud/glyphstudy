@@ -186,6 +186,9 @@ require(
     }
 
     function appendLegend(elementId) {
+      var text = task > 0 ? Configuration.tasksText[task - 1] : "";
+      $(elementId).append('<div id="taskDescription">'+text+'</div>');
+
       $(elementId).append(
         '<div id="legend">' +
           '<div class="box entertainment"></div><div class="box-explain">Entertainment</div>' +
@@ -526,7 +529,7 @@ require(
 
       // Break until user clicks OK in confirm
       // TODO: Make a more beautiful alert box
-      Logger.log(Configuration.tasksText[task - 1]);
+      if (debug) Logger.log(Configuration.tasksText[task - 1]);
       var answer = confirm(Configuration.tasksText[task - 1]);
       if (answer) {
         updateDisplay();
