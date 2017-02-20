@@ -29,6 +29,11 @@ define(dependencies, function() {
         var header = eventColumns.join(";");
         eventLog.push(header);
       }
+	  
+	  //writing strings instead of floats with . into the excel file
+	  var str = accuracy + "";
+	  var accuracyExcel = str.replace(".",",");
+	  
       var message = eventId +
         ";" +
         participant +
@@ -41,7 +46,7 @@ define(dependencies, function() {
         ";" +
         time +
         ";" +
-        accuracy +
+        accuracyExcel +
         ";" +
         error +
         ";" +

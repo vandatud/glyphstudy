@@ -285,7 +285,7 @@ require(
         $(".currentrow").removeClass("currentrow");
         $(id).toggleClass("currentrow");
       }
-
+	  
       var now = new Date();
       var time = Math.abs(now - startTest);
 
@@ -295,31 +295,59 @@ require(
       var target = DataProvider.getEventById(currentTarget);
 
       // Finde die Veranstaltung mit dem Preis!
-      if (task == 1 || task == 6) accuracy = target.Price - d.Price;
+      if (task == 1 || task == 6) { 
+	  		accuracy = target.Price - d.Price;
+	 		//console.debug("Accuracy: "+  accuracy); 
+	 	}
       // Finde die Veranstaltung mit der Popularität!
-      if (task == 2 || task == 7) accuracy = target.Popularity - d.Popularity;
+      if (task == 2 || task == 7) { 
+	  	accuracy = target.Popularity - d.Popularity;
+	  	//console.debug("Accuracy: "+  accuracy); 
+		}
       // Finde die Veranstaltung, Zeitpunkt!
-      if (task == 3 || task == 8) accuracy = target.Time - d.Time;
+      if (task == 3 || task == 8){ 
+	  	accuracy = target.Time - d.Time;
+	  	//console.debug("Accuracy: "+  accuracy);
+		}
       // Finde die Veranstaltung, die mit Wahrscheinlichkeit eine Musikveranstaltung!
-      if (task == 4 || task == 9)
-        accuracy = target.EstimationMusic - d.EstimationMusic;
+      if (task == 4 || task == 9){ 
+	 	 accuracy = target.EstimationMusic - d.EstimationMusic;
+		//console.debug("Accuracy: "+  accuracy);
+	   }
       // Finde die Veranstaltung, Entfernung!
-      if (task == 5 || task == 10) accuracy = target.Distance - d.Distance;
-
+      if (task == 5 || task == 10) {
+		  accuracy = target.Distance - d.Distance;
+			//console.debug("Accuracy: "+  accuracy);
+		}
       if (task >= 11 && task <= 20)
         if (d.Category != target.Category) error = 1;
-
+			
       // Finde die Veranstaltung aus der Kategorie mit Preis!
-      if (task == 16) accuracy = target.Price - d.Price;
+      if (task == 16) { 
+	  	accuracy = target.Price - d.Price;
+	  	//console.debug("Accuracy: "+  accuracy);
+	  }
       // Finde die Veranstaltung aus der Kategorie mit Popularität!
-      if (task == 12 || task == 17) accuracy = target.Popularity - d.Popularity;
+      if (task == 12 || task == 17){ 
+	  	accuracy = target.Popularity - d.Popularity;
+	  	//console.debug("Accuracy: "+  accuracy);
+		}
       // Finde die Veranstaltung aus der Kategorie, Zeitpunkt!
-      if (task == 13 || task == 18) accuracy = target.Time - d.Time;
+      if (task == 13 || task == 18){ 
+	  	accuracy = target.Time - d.Time;
+	  	//console.debug("Accuracy: "+  accuracy);
+		}
       // Finde die Veranstaltung aus der Kategorie, mit Wahrscheinlichkeit eine Musikveranstaltung!
       if (task == 11 || (task == 14 || task == 19))
-        accuracy = target.EstimationMusic - d.EstimationMusic;
+      {  
+	  		accuracy = target.EstimationMusic - d.EstimationMusic;
+			//console.debug("Accuracy: "+  accuracy);
+	  }
       // Finde die Veranstaltung aus der Kategorie, Entfernung!
-      if (task == 15 || task == 20) accuracy = target.Distance - d.Distance;
+      if (task == 15 || task == 20) {
+		   accuracy = target.Distance - d.Distance;
+	  		//console.debug("Accuracy: "+  accuracy);
+	  }
 
       // find event most similar to given event id
       if (task >= 21 && task <= 25) {
@@ -333,6 +361,8 @@ require(
           d.EstimationMusic +
           target.Distance -
           d.Distance) / 5;
+		  
+		  //console.debug("Accuracy: "+  accuracy);
       }
 
       Logger.event(
