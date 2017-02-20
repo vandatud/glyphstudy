@@ -72,16 +72,16 @@ define(function() {
       "Finde eine Veranstaltung aus der Kategorie Tourismus, deren Ort möglichst weit entfernt ist!",
 
       "Finde eine Veranstaltung aus der Kategorie Beauty mit einen möglichst niedrigen Preis!",
-      "Finde eine Veranstaltung aus der Kategorie Entertainment, dren Popularität möglichst niedrig ist!",
+      "Finde eine Veranstaltung aus der Kategorie Entertainment, deren Popularität möglichst niedrig ist!",
       "Finde eine Veranstaltung aus der Kategorie Band, die zu einem möglichst nahen Zeitpunkt stattfindet!",
       "Finde eine Veranstaltung aus der Kategorie Sport, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!",
-      "Finde die Veranstaltung aus der Kategorie Tourismus, der Ort möglichst nah ist!",
+      "Finde eine Veranstaltung aus der Kategorie Tourismus, der Ort möglichst nah ist!",
 
-      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
-      "Finde die Veranstaltung, die am ähnlichsten zu der angegebenen ist.",
+      "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
+      "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
+      "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
+      "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
+      "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
     ]
   };
 });
