@@ -240,7 +240,7 @@ require(
             "<span>Preis:</span>" +
             refElement.Price.toFixed(3) +
             "<br />" +
-            "<span>Entfernung:</span>" +
+            "<span>Ort:</span>" +
             refElement.Distance.toFixed(3) +
             "<br />" +
             "<span>Zeit:</span>" +
