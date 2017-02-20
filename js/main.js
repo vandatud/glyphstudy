@@ -310,13 +310,13 @@ require(
         if (d.Category != target.Category) error = 1;
 
       // Finde die Veranstaltung aus der Kategorie mit Preis!
-      if (task == 11 || task == 16) accuracy = target.Price - d.Price;
+      if (task == 16) accuracy = target.Price - d.Price;
       // Finde die Veranstaltung aus der Kategorie mit Popularität!
       if (task == 12 || task == 17) accuracy = target.Popularity - d.Popularity;
       // Finde die Veranstaltung aus der Kategorie, Zeitpunkt!
       if (task == 13 || task == 18) accuracy = target.Time - d.Time;
       // Finde die Veranstaltung aus der Kategorie, mit Wahrscheinlichkeit eine Musikveranstaltung!
-      if (task == 14 || task == 19)
+      if (task == 11 || (task == 14 || task == 19))
         accuracy = target.EstimationMusic - d.EstimationMusic;
       // Finde die Veranstaltung aus der Kategorie, Entfernung!
       if (task == 15 || task == 20) accuracy = target.Distance - d.Distance;
@@ -447,7 +447,7 @@ require(
       // Finde die Veranstaltung aus der Kategorie Beauty mit dem höchsten Preis!
       if (task == 11)
         currentTarget = DataProvider.getEventByHighestAttribute(
-          "Price",
+          "EstimationMusic",
           "Beauty"
         ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
