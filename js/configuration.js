@@ -54,7 +54,7 @@ define(function() {
     blocks: 3,
     tasksText: [
       "Finde eine Veranstaltung, die einen möglichst hohen Preis hat!",
-      "Finde eine Veranstaltun, deren Popularität möglichst hoch ist!",
+      "Finde eine Veranstaltung, deren Popularität möglichst hoch ist!",
       "Finde eine Veranstaltung, die zu einem möglichst weit entfernten Zeitpunkt stattfindet!",
       "Finde eine Veranstaltung, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!",
       "Finde eine Veranstaltung, deren Ort möglichst weit entfernt ist!",
@@ -75,7 +75,7 @@ define(function() {
       "Finde eine Veranstaltung aus der Kategorie Entertainment, deren Popularität möglichst niedrig ist!",
       "Finde eine Veranstaltung aus der Kategorie Band, die zu einem möglichst nahen Zeitpunkt stattfindet!",
       "Finde eine Veranstaltung aus der Kategorie Sport, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!",
-      "Finde eine Veranstaltung aus der Kategorie Tourismus, der Ort möglichst nah ist!",
+      "Finde eine Veranstaltung aus der Kategorie Tourismus, deren Ort möglichst nah ist!",
 
       "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
       "Finde eine Veranstaltung, die möglichst ähnlich zu der angegebenen ist.",
