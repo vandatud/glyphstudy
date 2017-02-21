@@ -45,7 +45,7 @@ define({
     mapping["EstimationMusic"] = "Mit Musik";
     mapping["Price"] = "Preis";
     mapping["Time"] = "Zeit";
-    mapping["Distance"] = "Entfernung";
+    mapping["Distance"] = "Ort";
     mapping["Popularity"] = "Popularität";
     mapping["Category"] = "Kategorie";
 
