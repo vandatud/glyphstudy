@@ -367,7 +367,8 @@ require(
     }
 
     /**
-     * Helper function that randomizes the conditions used in the blocks
+     * Obsolete: Helper function that randomizes the conditions used in the blocks
+     * Randomization is balanced beforehand and configured via URL paramater
      */
     function updateCondition() {
       var cond = Math.floor(Math.random() * Configuration.conditions + 1);
