@@ -559,7 +559,7 @@ require(
       if (condition == 2)
         information += "\n\nZur Lösung nutzen Sie die Flowerglyphen.";
       if (condition == 3)
-        information += "\n\nZur Lösung nutzen Sie die Autoglyphen.";
+        information += "\n\nZur Lösung nutzen Sie die Starplots.";
       if (rehearsalTask) {
         taskDescription = Configuration.rehearsalTaskText;
         information += "\n\nZunächst ein Probedurchgang. Fragen Sie Ihren Studienleiter um Hilfe!";
