@@ -7,6 +7,7 @@ require(
     var task = 0;
     var startTask = 0;
     var finishedTasks = [];
+    var rehearsalTask = true;
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
@@ -335,25 +336,31 @@ require(
           5;
       }
 
-      Logger.event(
-        participant,
-        block,
-        condition,
-        task,
-        time,
-        accuracy,
-        error,
-        currentTarget,
-        d.Id
-      );
+      if (!rehearsalTask)
+        Logger.event(
+          participant,
+          block,
+          condition,
+          task,
+          time,
+          accuracy,
+          error,
+          currentTarget,
+          d.Id
+        );
 
-      if (debug) Logger.log("Accuracy: "+  accuracy);
+      if (debug) Logger.log("Accuracy: " + accuracy);
       if (debug) Logger.log("ID Clicked: " + d.Id);
 
       // show feedback to the user
       var feedback = "<br /><br />Vielen Dank! Aufgabe beendet. Mit Leertaste geht es weiter.";
       $("#taskDescription").append(feedback);
 
+      // finish rehearsal if necessary
+      if (rehearsalTask) {
+        rehearsalTask = false;
+        finishedTasks = [];
+      }
       // do not log more events / disable click handler
       trialRunning = false;
     }
@@ -449,7 +456,7 @@ require(
       if (task == 10)
         currentTarget = DataProvider.getEventByLowestAttribute("Distance").Id;
 
-      // Finde die Veranstaltung aus der Kategorie Beauty mit dem höchsten Preis!
+      // Finde die Veranstaltung aus der Kategorie Beauty mit höchster Wahrscheinlichkeit eine Musikveranstaltung!
       if (task == 11)
         currentTarget = DataProvider.getEventByHighestAttribute(
           "EstimationMusic",
@@ -544,7 +551,15 @@ require(
       // Break until user clicks OK in confirm
       // TODO: Make a more beautiful alert box
       if (debug) Logger.log(Configuration.tasksText[task - 1]);
-      var answer = confirm(Configuration.tasksText[task - 1]);
+      var information = "";
+      if (condition == 1) information += " Zur Lösung nutzen Sie die Tabelle.";
+      if (condition == 2)
+        information += " Zur Lösung nutzen Sie die Flowerglyphen.";
+      if (condition == 3)
+        information += " Zur Lösung nutzen Sie die Autoglyphen.";
+      if (rehearsalTask)
+        information += " Zunächst ein Probedurchgang. Fragen Sie Ihren Studienleiter um Hilfe!";
+      var answer = confirm(Configuration.tasksText[task - 1] + information);
       if (answer) {
         updateDisplay();
         trialRunning = true;
@@ -565,8 +580,9 @@ require(
         updateTask();
         block++;
         if (finishedConditions.length < Configuration.conditions) {
-          //updateCondition();
+          //updateCondition(); // conditions are randomized beforehand
           condition = conditions[block - 1];
+          rehearsalTask = true;
         }
       }
 
@@ -576,7 +592,7 @@ require(
         var log = Logger.getEventLog();
         Utils.saveTextAsFile(log.join("\n"), "study_" + participant + ".csv");
         Logger.log(log.join("\n")); // log to console - better safe than sorry
-        $("#plots").append("<h1>Geschafft!</h1>");
+        $("#taskDescription").append("<h1>Geschafft! Studie beendet.</h1>");
         return;
       }
 
