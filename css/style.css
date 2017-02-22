@@ -67,7 +67,7 @@ body {
 
 .currentglyph {
   padding: 0px !important;
-  border: 2px dashed #555 !important;
+  border: 2px solid #eee !important;
 }
 
 #referenceElement {
