@@ -206,6 +206,7 @@ require(
           "</div>"
       );
       var text = task > 0 ? Configuration.tasksText[task - 1] : "";
+      if (rehearsalTask) text = Configuration.rehearsalTaskText;
       $(elementId).append('<div id="taskDescription">' + text + "</div>");
     }
 
@@ -536,13 +537,13 @@ require(
         referenceId = currentTarget;
       }
 
-      // TODO: find event most similar to 200223
+      // find event most similar to 200223
       if (task == 24) {
         currentTarget = 200223;
         referenceId = currentTarget;
       }
 
-      // TODO: find event most similar to 580880
+      // find event most similar to 580880
       if (task == 25) {
         currentTarget = 580880;
         referenceId = currentTarget;
@@ -551,15 +552,21 @@ require(
       // Break until user clicks OK in confirm
       // TODO: Make a more beautiful alert box
       if (debug) Logger.log(Configuration.tasksText[task - 1]);
+      var taskDescription = Configuration.tasksText[task - 1];
       var information = "";
-      if (condition == 1) information += " Zur Lösung nutzen Sie die Tabelle.";
+      if (condition == 1) information += "\n\nZur Lösung nutzen Sie die Tabelle.";
       if (condition == 2)
-        information += " Zur Lösung nutzen Sie die Flowerglyphen.";
+        information += "\n\nZur Lösung nutzen Sie die Flowerglyphen.";
       if (condition == 3)
-        information += " Zur Lösung nutzen Sie die Autoglyphen.";
-      if (rehearsalTask)
-        information += " Zunächst ein Probedurchgang. Fragen Sie Ihren Studienleiter um Hilfe!";
-      var answer = confirm(Configuration.tasksText[task - 1] + information);
+        information += "\n\nZur Lösung nutzen Sie die Autoglyphen.";
+      if (rehearsalTask) {
+        taskDescription = Configuration.rehearsalTaskText;
+        information += "\n\nZunächst ein Probedurchgang. Fragen Sie Ihren Studienleiter um Hilfe!";
+        referenceId = -1;
+      } else {        
+        information += "\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Aufgabe " + finishedTasks.length + "/" + Configuration.tasks + "]";
+      }
+      var answer = confirm(taskDescription + information);
       if (answer) {
         updateDisplay();
         trialRunning = true;

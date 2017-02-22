@@ -52,6 +52,7 @@ define(function() {
     conditions: 3,
     tasks: 25,
     blocks: 3,
+    rehearsalTaskText: "Finde eine Veranstaltung aus der Kategorie Entertainment, deren Preis möglichst hoch ist!",
     tasksText: [
       "Finde eine Veranstaltung, die einen möglichst hohen Preis hat!",
       "Finde eine Veranstaltung, deren Popularität möglichst hoch ist!",
