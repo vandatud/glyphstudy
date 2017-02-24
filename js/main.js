@@ -591,6 +591,8 @@ require(
           //updateCondition(); // conditions are randomized beforehand
           condition = conditions[block - 1];
           rehearsalTask = true;
+          var log = Logger.getEventLog();
+          Logger.log(log.join("\n")); // log to console - better safe than sorry
         }
       }
 

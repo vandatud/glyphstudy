@@ -54,7 +54,6 @@ define(dependencies, function() {
         ";" +
         selectedItem;
       eventLog.push(message);
-      console.debug(message);
       eventId++;
     },
     getEventLog: function() {
