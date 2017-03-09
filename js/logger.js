@@ -59,6 +59,10 @@ define(dependencies, function() {
     getEventLog: function() {
       return eventLog;
     },
+    clearEventLog: function() {
+      eventLog = [];
+      eventId = 1;
+    },    
     removeLastEvent: function() {
       eventLog.pop();
     }

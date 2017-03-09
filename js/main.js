@@ -168,10 +168,10 @@ require(
           explainItem = d;
           if (
             d.Price > 3 &&
-              d.EstimationMusic > 1 &&
-              d.Distance > 1 &&
-              d.Time > 1 &&
-              d.Popularity > 1
+            d.EstimationMusic > 1 &&
+            d.Distance > 1 &&
+            d.Time > 1 &&
+            d.Popularity > 1
           ) {
             explainItem = d;
             if (debug) Logger.log("Found reference glyph");
@@ -276,7 +276,57 @@ require(
      * on the screen in order to log study data
      */
     function itemClicked(d) {
-      if (!trialRunning) return;
+      if (!trialRunning) {
+        // do some magic with existing CSV files
+        for (let idx = 2; idx <= 42; idx++) {
+          let fileName = "./data/results/study_" + idx + ".csv";
+          d3
+            .csv(fileName)
+            .row(function(d) {
+              // TODO: Some normalization?
+              return d;
+            })
+            .get(function(error, rows) {
+              let rowCount = rows.length;
+
+              let result = [];
+              for (i = 0; i < rowCount; i++) {
+                let item = rows[i];
+                // TODO: Calculate accuracy new
+
+                var target = DataProvider.getEventById(item.Target);
+                var selected = DataProvider.getEventById(item.SelectedItem);
+
+                if (item.Task >= 21 && item.Task <= 25) {
+                  item.Accuracy = (
+                    Math.abs(target.Price - selected.Price) +
+                    Math.abs(target.Popularity - selected.Popularity) +
+                    Math.abs(target.Time - selected.Time) +
+                    Math.abs(target.EstimationMusic -selected.EstimationMusic) +
+                    Math.abs(target.Distance - selected.Distance)) /
+                    5;
+                }
+                Logger.event(
+                  item.Participant,
+                  item.Block,
+                  item.Condition,
+                  item.Task,
+                  item.Time,
+                  item.Accuracy,
+                  item.Error,
+                  item.Target,
+                  item.SelectedItem
+                );
+              }
+              Logger.log(fileName);
+              var log = Logger.getEventLog();
+              Logger.log(log.join("\n")); // log to console - better safe than sorry
+              Utils.saveTextAsFile(log.join("\n"), "study_" + idx + ".csv");
+              Logger.clearEventLog();
+            });
+        }
+        return;
+      }
 
       var id = Utils.eventElement(d.Id);
       if (condition != 1) {
@@ -555,7 +605,8 @@ require(
       if (debug) Logger.log(Configuration.tasksText[task - 1]);
       var taskDescription = Configuration.tasksText[task - 1];
       var information = "";
-      if (condition == 1) information += "\n\nZur Lösung nutzen Sie die Tabelle.";
+      if (condition == 1)
+        information += "\n\nZur Lösung nutzen Sie die Tabelle.";
       if (condition == 2)
         information += "\n\nZur Lösung nutzen Sie die Flowerglyphen.";
       if (condition == 3)
@@ -564,8 +615,12 @@ require(
         taskDescription = Configuration.rehearsalTaskText;
         information += "\n\nZunächst ein Probedurchgang. Fragen Sie Ihren Studienleiter um Hilfe!";
         referenceId = -1;
-      } else {        
-        information += "\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Aufgabe " + finishedTasks.length + "/" + Configuration.tasks + "]";
+      } else {
+        information += "\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t[Aufgabe " +
+          finishedTasks.length +
+          "/" +
+          Configuration.tasks +
+          "]";
       }
       var answer = confirm(taskDescription + information);
       if (answer) {
