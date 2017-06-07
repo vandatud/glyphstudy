@@ -7,7 +7,7 @@ require(
     var task = 0;
     var startTask = 0;
     var finishedTasks = [];
-    var rehearsalTask = true;
+    var rehearsalTask = false;
     // current block of the study
     var block = 1;
     // current condition which is randomized during the study
@@ -346,44 +346,44 @@ require(
       var target = DataProvider.getEventById(currentTarget);
 
       // Finde die Veranstaltung mit dem Preis!
-      if (task == 1 || task == 6) accuracy = target.Price - d.Price;
+      //if (task == 1 || task == 6)
+      if (task == 1) accuracy = target.Price - d.Price;
       // Finde die Veranstaltung mit der Popularität!
-      if (task == 2 || task == 7) accuracy = target.Popularity - d.Popularity;
+      //if (task == 2 || task == 7) 
+      if (task == 2) accuracy = target.Popularity - d.Popularity;
       // Finde die Veranstaltung, Zeitpunkt!
-      if (task == 3 || task == 8) accuracy = target.Time - d.Time;
+      //if (task == 3 || task == 8) accuracy = target.Time - d.Time;
       // Finde die Veranstaltung, die mit Wahrscheinlichkeit eine Musikveranstaltung!
-      if (task == 4 || task == 9)
-        accuracy = target.EstimationMusic - d.EstimationMusic;
+      //if (task == 4 || task == 9) accuracy = target.EstimationMusic - d.EstimationMusic;
       // Finde die Veranstaltung, Entfernung!
-      if (task == 5 || task == 10) accuracy = target.Distance - d.Distance;
+      //if (task == 5 || task == 10) accuracy = target.Distance - d.Distance;
 
-      if (task >= 11 && task <= 20)
+      //if (task >= 11 && task <= 20)
+      if (task == 3 || task == 4)
         if (d.Category != target.Category) error = 1;
 
       // Finde die Veranstaltung aus der Kategorie mit Preis!
-      if (task == 16) accuracy = target.Price - d.Price;
+      //if (task == 16) accuracy = target.Price - d.Price;
       // Finde die Veranstaltung aus der Kategorie mit Popularität!
-      if (task == 12 || task == 17) accuracy = target.Popularity - d.Popularity;
+      //if (task == 12 || task == 17) accuracy = target.Popularity - d.Popularity;
       // Finde die Veranstaltung aus der Kategorie, Zeitpunkt!
-      if (task == 13 || task == 18) accuracy = target.Time - d.Time;
+      //if (task == 13 || task == 18) 
+      if (task == 3) accuracy = target.Time - d.Time;
       // Finde die Veranstaltung aus der Kategorie, mit Wahrscheinlichkeit eine Musikveranstaltung!
-      if (task == 11 || (task == 14 || task == 19))
-        accuracy = target.EstimationMusic - d.EstimationMusic;
+      //if (task == 11 || (task == 14 || task == 19)) accuracy = target.EstimationMusic - d.EstimationMusic;
       // Finde die Veranstaltung aus der Kategorie, Entfernung!
-      if (task == 15 || task == 20) accuracy = target.Distance - d.Distance;
+      //if (task == 15 || task == 20)
+      if (task == 4) accuracy = target.Distance - d.Distance;
 
       // find event most similar to given event id
-      if (task >= 21 && task <= 25) {
-        accuracy = (target.Price -
-          d.Price +
-          target.Popularity -
-          d.Popularity +
-          target.Time -
-          d.Time +
-          target.EstimationMusic -
-          d.EstimationMusic +
-          target.Distance -
-          d.Distance) /
+      if (task == 5) {
+      //if (task = 21 && task <= 25) {
+        accuracy = (
+          Math.abs(target.Price - d.Price) +
+          Math.abs(target.Popularity - d.Popularity) +
+          Math.abs(target.Time - d.Time) +
+          Math.abs(target.EstimationMusic - d.EstimationMusic) +
+          Math.abs(target.Distance - d.Distance)) /
           5;
       }
 
@@ -474,131 +474,135 @@ require(
       if (task == 1)
         currentTarget = DataProvider.getEventByHighestAttribute("Price").Id;
       // Finde die Veranstaltung mit der höchsten Popularität!
-      if (task == 2)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "Popularity"
-        ).Id;
+      // if (task == 2)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "Popularity"
+      //   ).Id;
       // Finde die Veranstaltung, die am weitesten zum aktuellen Zeitpunkt entfernt ist!
-      if (task == 3)
-        currentTarget = DataProvider.getEventByHighestAttribute("Time").Id;
+      // if (task == 3)
+      //   currentTarget = DataProvider.getEventByHighestAttribute("Time").Id;
       // Finde die Veranstaltung, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 4)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "EstimationMusic"
-        ).Id;
+      // if (task == 4)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "EstimationMusic"
+      //   ).Id;
       // Finde die Veranstaltung, die am weitesten entfernt ist!
-      if (task == 5)
-        currentTarget = DataProvider.getEventByHighestAttribute("Distance").Id;
+      // if (task == 5)
+      //   currentTarget = DataProvider.getEventByHighestAttribute("Distance").Id;
 
       // Finde die Veranstaltung mit dem niedrigsten Preis!
-      if (task == 6)
-        currentTarget = DataProvider.getEventByLowestAttribute("Price").Id;
+      // if (task == 6)
+      //   currentTarget = DataProvider.getEventByLowestAttribute("Price").Id;
       // Finde die Veranstaltung mit der niedrigsten Popularität!
-      if (task == 7)
+      // if (task == 7)
+      if (task == 2)
         currentTarget = DataProvider.getEventByLowestAttribute("Popularity").Id;
       // Finde die Veranstaltung, die am nächsten  zum aktuellen Zeitpunkt liegt!
-      if (task == 8)
-        currentTarget = DataProvider.getEventByLowestAttribute("Time").Id;
+      // if (task == 8)
+      //   currentTarget = DataProvider.getEventByLowestAttribute("Time").Id;
       // Finde die Veranstaltung, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 9)
-        currentTarget = DataProvider.getEventByLowestAttribute(
-          "EstimationMusic"
-        ).Id;
+      // if (task == 9)
+      //   currentTarget = DataProvider.getEventByLowestAttribute(
+      //     "EstimationMusic"
+      //   ).Id;
       // Finde die Veranstaltung, mit der größten Nähe zum aktuellen Ort!
-      if (task == 10)
-        currentTarget = DataProvider.getEventByLowestAttribute("Distance").Id;
+      // if (task == 10)
+      //   currentTarget = DataProvider.getEventByLowestAttribute("Distance").Id;
 
       // Finde die Veranstaltung aus der Kategorie Beauty mit höchster Wahrscheinlichkeit eine Musikveranstaltung!
-      if (task == 11)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "EstimationMusic",
-          "Beauty"
-        ).Id;
+      // if (task == 11)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "EstimationMusic",
+      //     "Beauty"
+      //   ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
-      if (task == 12)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "Popularity",
-          "Entertainment"
-        ).Id;
+      // if (task == 12)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "Popularity",
+      //     "Entertainment"
+      //   ).Id;
       // Finde die Veranstaltung aus der Kategorie Band, die am weitesten zum aktuellen Zeitpunkt entfernt ist!
-      if (task == 13)
+      if (task == 3)
+      // if (task == 13)
         currentTarget = DataProvider.getEventByHighestAttribute(
           "Time",
           "Band"
         ).Id;
       // Finde die Veranstaltung aus der Kategorie Sport, die mit höchster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 14)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "EstimationMusic",
-          "Sport"
-        ).Id;
+      // if (task == 14)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "EstimationMusic",
+      //     "Sport"
+      //   ).Id;
       // Finde die Veranstaltung aus der Kategorie Tourismus, die am weitesten entfernt ist!
-      if (task == 15)
-        currentTarget = DataProvider.getEventByHighestAttribute(
-          "Distance",
-          "Tourismus"
-        ).Id;
+      // if (task == 15)
+      //   currentTarget = DataProvider.getEventByHighestAttribute(
+      //     "Distance",
+      //     "Tourismus"
+      //   ).Id;
 
       // Finde die Veranstaltung aus der Kategorie Entertainment mit dem niedrigsten Preis!
-      if (task == 16)
-        currentTarget = DataProvider.getEventByLowestAttribute(
-          "Price",
-          "Beauty"
-        ).Id;
+      // if (task == 16)
+      //   currentTarget = DataProvider.getEventByLowestAttribute(
+      //     "Price",
+      //     "Beauty"
+      //   ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment mit der höchsten Popularität!
-      if (task == 17)
-        currentTarget = DataProvider.getEventByLowestAttribute(
-          "Popularity",
-          "Entertainment"
-        ).Id;
+      // if (task == 17)
+      //   currentTarget = DataProvider.getEventByLowestAttribute(
+      //     "Popularity",
+      //     "Entertainment"
+      //   ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment, die am nächsten  zum aktuellen Zeitpunkt liegt!
-      if (task == 18)
-        currentTarget = DataProvider.getEventByLowestAttribute(
-          "Time",
-          "Band"
-        ).Id;
-      // Finde die Veranstaltung aus der Kategorie Entertainment, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!
-      if (task == 19)
-        currentTarget = DataProvider.getEventByLowestAttribute(
-          "EstimationMusic",
-          "Sport"
-        ).Id;
+      // if (task == 18)
+      //   currentTarget = DataProvider.getEventByLowestAttribute(
+      //     "Time",
+      //     "Band"
+      //   ).Id;
+      // Finde die Veranstaltung aus der Kategorie Entertainment, die mit niedrigster Wahrscheinlichkeit eine Musikveranstaltung ist!      
+      // if (task == 19)
+        // currentTarget = DataProvider.getEventByLowestAttribute(
+        //   "EstimationMusic",
+        //   "Sport"
+        // ).Id;
       // Finde die Veranstaltung aus der Kategorie Entertainment, mit der größten Nähe zum aktuellen Ort!
-      if (task == 20)
+      if (task == 4)
+      // if (task == 20)
         currentTarget = DataProvider.getEventByLowestAttribute(
           "Distance",
           "Tourismus"
         ).Id;
 
       // find event most similar to 785752
-      if (task == 21) {
+      // if (task == 21) {
+      if (task == 5) {
         currentTarget = 785752;
         referenceId = currentTarget;
       }
 
       // find event most similar to 570492
-      if (task == 22) {
-        currentTarget = 570492;
-        referenceId = currentTarget;
-      }
+      // if (task == 22) {
+      //   currentTarget = 570492;
+      //   referenceId = currentTarget;
+      // }
 
-      // find event most similar to 786416
-      if (task == 23) {
-        currentTarget = 786416;
-        referenceId = currentTarget;
-      }
+      // // find event most similar to 786416
+      // if (task == 23) {
+      //   currentTarget = 786416;
+      //   referenceId = currentTarget;
+      // }
 
-      // find event most similar to 200223
-      if (task == 24) {
-        currentTarget = 200223;
-        referenceId = currentTarget;
-      }
+      // // find event most similar to 200223
+      // if (task == 24) {
+      //   currentTarget = 200223;
+      //   referenceId = currentTarget;
+      // }
 
-      // find event most similar to 580880
-      if (task == 25) {
-        currentTarget = 580880;
-        referenceId = currentTarget;
-      }
+      // // find event most similar to 580880
+      // if (task == 25) {
+      //   currentTarget = 580880;
+      //   referenceId = currentTarget;
+      // }
 
       // Break until user clicks OK in confirm
       // TODO: Make a more beautiful alert box
@@ -645,7 +649,7 @@ require(
         if (finishedConditions.length < Configuration.conditions) {
           //updateCondition(); // conditions are randomized beforehand
           condition = conditions[block - 1];
-          rehearsalTask = true;
+          rehearsalTask = false;
           var log = Logger.getEventLog();
           Logger.log(log.join("\n")); // log to console - better safe than sorry
         }
