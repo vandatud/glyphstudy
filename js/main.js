@@ -276,7 +276,7 @@ require(
      * on the screen in order to log study data
      */
     function itemClicked(d) {
-      if (!trialRunning) {
+      if (!trialRunning && false) {
         // do some magic with existing CSV files
         for (let idx = 2; idx <= 42; idx++) {
           let fileName = "./data/results/study_" + idx + ".csv";
