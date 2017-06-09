@@ -49,9 +49,9 @@ define(function() {
     explainPlotWidth: explainPlotWidth,
     explainPlotHeight: explainPlotHeight,
     maxItems: 226,
-    conditions: 3,
+    conditions: 2,
     tasks: 5,
-    blocks: 3,
+    blocks: 2,
     rehearsalTaskText: "Finde eine Veranstaltung aus der Kategorie Entertainment, deren Preis möglichst hoch ist!",
     tasksText: [
       "Finde eine Veranstaltung, die einen möglichst hohen Preis hat!",

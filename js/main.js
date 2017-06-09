@@ -26,6 +26,16 @@ require(
     var referenceId = -1;
     // suppress debug output to console
     var debug = true;
+    // display variables for glyph game
+    var starAccuracy = -1;
+    var starBestAccuracy = -1;
+    var starTime = -1;
+    var starBestTime = -1;
+    var flowerAccuracy = -1;
+    var flowerBestAccuracy = -1;
+    var flowerTime = -1;
+    var flowerBestTime = -1;
+    var timeout;
 
     /**
      * Draws an array of star plots into #pots div
@@ -205,9 +215,10 @@ require(
           '<div class="box beauty"></div><div class="box-explain">Beauty</div>' +
           "</div>"
       );
-      var text = task > 0 ? Configuration.tasksText[task - 1] : "";
+      var text = task > 0 ? Configuration.tasksText[task - 1] + " 0" : "";
       if (rehearsalTask) text = Configuration.rehearsalTaskText;
       $(elementId).append('<div id="taskDescription">' + text + "</div>");
+      startTime();
     }
 
     /**
@@ -276,7 +287,8 @@ require(
      * on the screen in order to log study data
      */
     function itemClicked(d) {
-      if (!trialRunning && false) {
+      if (!trialRunning) return;
+      if (false) {
         // do some magic with existing CSV files
         for (let idx = 2; idx <= 42; idx++) {
           let fileName = "./data/results/study_" + idx + ".csv";
@@ -339,6 +351,7 @@ require(
 
       var now = new Date();
       var time = Math.abs(now - startTest);
+      clearTimeout(timeout);
 
       // TODO: Compare target and selected event according to selected task!
       var accuracy = 999;
@@ -403,8 +416,18 @@ require(
       if (debug) Logger.log("Accuracy: " + accuracy);
       if (debug) Logger.log("ID Clicked: " + d.Id);
 
+      accuracy = error == 1 ? 10.0 : Math.abs(accuracy);
+      if (conditions[block - 1] == 2) {
+        flowerAccuracy = flowerAccuracy < 0 ? accuracy : (flowerAccuracy + accuracy) / 2;
+        flowerTime = flowerTime < 0 ? time : (flowerTime + time) / 2;
+      } else if (conditions[block - 1] == 3) {
+        starAccuracy = starAccuracy < 0 ? accuracy : (starAccuracy + accuracy) / 2;
+        starTime = starTime < 0 ? time : (starTime + time) / 2;
+      }
+
       // show feedback to the user
       var feedback = "<br /><br />Vielen Dank! Aufgabe beendet. Mit Leertaste geht es weiter.";
+      feedback += "<br />Genauigkeit: " + accuracy.toFixed(2) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Geschwindigkeit: " + time + " ms";
       $("#taskDescription").append(feedback);
 
       // finish rehearsal if necessary
@@ -658,10 +681,62 @@ require(
       if (block > Configuration.blocks) {
         // study is done
         clear();
+
+        starBestAccuracy = starBestAccuracy < 0
+          ? starAccuracy
+          : starBestAccuracy > starAccuracy
+            ? starAccuracy
+            : starBestAccuracy;
+        starBestTime = starBestTime < 0
+          ? starTime
+          : starBestTime > starTime
+            ? starTime
+            : starBestTime;
+        flowerBestAccuracy = flowerBestAccuracy < 0
+          ? flowerAccuracy
+          : flowerBestAccuracy > flowerAccuracy
+            ? flowerAccuracy
+            : flowerBestAccuracy;
+        flowerBestTime = flowerBestTime < 0
+          ? flowerTime
+          : flowerBestTime > flowerTime
+            ? flowerTime
+            : flowerBestTime;
+
         var log = Logger.getEventLog();
+        var message = "Vielen Dank!\n\n";
+        message += "Starplot:\n\n"
+        message += "Durchschnittliche Geschwindigkeit:     " + starTime + " ms\n";
+        message += "Beste Geschwindigkeit:                          " + starBestTime + " ms\n";
+        message += "Durchschnittliche Genauigkeit:             " + starAccuracy.toFixed(2) + "\n";
+        message += "Beste Genauigkeit:                                  " + starBestAccuracy.toFixed(2) + "\n\n\n";
+        message += "Flowerglyph:\n\n"
+        message += "Durchschnittliche Geschwindigkeit:     " + flowerTime + " ms\n";
+        message += "Beste Geschwindigkeit:                          " + flowerBestTime + " ms\n";
+        message += "Durchschnittliche Genauigkeit:             " + flowerAccuracy.toFixed(2) + "\n";
+        message += "Beste Genauigkeit:                                  " + flowerBestAccuracy.toFixed(2) + "\n\n\n";
+        confirm(message);
+
         Utils.saveTextAsFile(log.join("\n"), "study_" + participant + ".csv");
         Logger.log(log.join("\n")); // log to console - better safe than sorry
         $("#taskDescription").append("<h1>Geschafft! Studie beendet.</h1>");
+        participant++;
+        task = 0;
+        startTask = 0;
+        finishedTasks = [];
+        block = 1;
+        condition = 0;
+        conditions = conditions[0] == 2 ? [3, 2] : [2, 3];
+        finishedConditions = [];
+        trialRunning = false;
+        startTest = new Date();
+        currentTarget = -1;
+        referenceId = -1;
+        starAccuracy = -1;
+        starTime = -1;
+        flowerAccuracy = -1;
+        flowerTime = -1;
+        showInitialInstructions();
         return;
       }
 
@@ -677,6 +752,18 @@ require(
 
     function highlightTarget(id) {
       $(Utils.eventElement(id)).toggleClass("highlightGlyph");
+    }
+
+    function showInitialInstructions() {
+      $("#plots").append(
+        "<h1>Spiel bereit<br /><br />Teilnehmernummer: " +
+          participant +
+          "<br />Blöcke: " +
+          Configuration.blocks +
+          "<br />Aufgaben pro Block: " +
+          Configuration.tasks +
+          "<br /><br />&lt;Leertaste&gt; um zu beginnen.</h1>"
+      );
     }
 
     // enable keyboard interaction
@@ -713,6 +800,15 @@ require(
       }
     });
 
+    function startTime() {
+        var now = new Date();
+        var text = document.getElementById('taskDescription').innerHTML;
+        var lastIndex = text.lastIndexOf(" ");
+        text = text.substring(0, lastIndex);
+        document.getElementById('taskDescription').innerHTML = text + " " + Math.abs(now - startTest);
+        timeout = setTimeout(startTime, 500);
+    }
+
     // parse params from URL / study needs ./index.html?participant={id}
     $(document).ready(function() {
       if (Utils.urlParam("nodebug")) {
@@ -733,15 +829,7 @@ require(
       // TODO: Parse URL params for continuation of a trial like &finishedTasks=1,2,3&finishedConditions=2,1
 
       // Show initial study instructions
-      $("#plots").append(
-        "<h1>Studie bereit<br /><br />Teilnehmernummer: " +
-          participant +
-          "<br />Blöcke: " +
-          Configuration.blocks +
-          "<br />Aufgaben pro Block: " +
-          Configuration.tasks +
-          "<br /><br />&lt;Leertaste&gt; um zu beginnen.</h1>"
-      );
+      showInitialInstructions();
     });
   }
 );
